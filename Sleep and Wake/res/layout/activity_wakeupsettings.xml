@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/textview_fadein" />
+		
+        <RadioGroup
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal">
+            
+        <RadioButton
+            android:id="@+id/radioButton_fadeinon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_on" />
+
+    	<RadioButton
+        	android:id="@+id/radioButton_fadeinoff"
+       		android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/radiobutton_off" />
+		</RadioGroup>
+	</LinearLayout>
+	   
+    
+    <LinearLayout 
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+      		android:orientation="horizontal">
+    
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:text="@string/textview_fadeintime"/>
+        
+    	<EditText
+        	android:id="@+id/edit_fadeintime"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:hint="@string/edittext_fadeintime"
+        	android:inputType="number"/>
+	
+    	  <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:text="@string/textview_fadeinminute"/>
+	</LinearLayout>
+    
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Button
+        android:id="@+id/button_savewakeupsettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_savewakeupsettings"
+        android:onClick="saveWakeupSettings" />
+
+    	<Button
+        android:id="@+id/button_cancelwakeupsettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_cancelwakeupsettings"
+        android:onClick="cancelWakeupSettings" />
+    </LinearLayout>
+
+</LinearLayout>
