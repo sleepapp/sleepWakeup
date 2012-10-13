@@ -17,11 +17,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 
-public class WakeupsettingsActivity extends Activity {
+public class SleepsettingsActivity extends Activity {
 	
-	WakeupSettings mywakeup;
-	RadioButton rbfadeinon,rbfadeinoff;
-	EditText editfadeintime;
+	SleepSettings mywakeup;
+	RadioButton rbfadeouton,rbfadeoutoff;
+	EditText editfadeouttime;
 	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -29,43 +29,43 @@ public class WakeupsettingsActivity extends Activity {
 	        
 	        requestWindowFeature(Window.FEATURE_NO_TITLE);
 	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	        setContentView(R.layout.activity_wakeupsettings);
+	        setContentView(R.layout.activity_sleepsettings);
 	        
 	        Intent intent = getIntent();
-	        mywakeup = (WakeupSettings)intent.getSerializableExtra("MAIN_MESSAGE_WAKE");
+	        mywakeup = (SleepSettings)intent.getSerializableExtra("MAIN_MESSAGE_WAKE");
 	        
-	        rbfadeinon = (RadioButton) findViewById(R.id.radioButton_fadeinon);
-	        rbfadeinoff = (RadioButton) findViewById(R.id.radioButton_fadeinoff);
-	        editfadeintime = (EditText) findViewById(R.id.edit_fadeintime);
+	        rbfadeouton = (RadioButton) findViewById(R.id.radioButton_fadeouton);
+	        rbfadeoutoff = (RadioButton) findViewById(R.id.radioButton_fadeoutoff);
+	        editfadeouttime = (EditText) findViewById(R.id.edit_fadeouttime);
 	        
-	        if(mywakeup.fadein == true)
-	        	rbfadeinon.setChecked(true);
+	        if(mywakeup.fadeout == true)
+	        	rbfadeouton.setChecked(true);
 	        else
-	        	rbfadeinoff.setChecked(true);
+	        	rbfadeoutoff.setChecked(true);
 	        
-	        editfadeintime.setText(Float.toString(mywakeup.fadeintime));
+	        editfadeouttime.setText(Float.toString(mywakeup.fadeouttime));
 	                
 	 }
 	 
 	 public void saveWakeupSettings(View view){
 		 	
-		 	mywakeup.fadeintime = Float.parseFloat(editfadeintime.getText().toString());
+		 	mywakeup.fadeouttime = Float.parseFloat(editfadeouttime.getText().toString());
 		 			 	
-		 	if(rbfadeinon.isChecked())
-		 		mywakeup.fadein = true;
+		 	if(rbfadeouton.isChecked())
+		 		mywakeup.fadeout = true;
 		 	else
-		 		mywakeup.fadein = false;
+		 		mywakeup.fadeout = false;
 		 
 		 	if(mywakeup.active){
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
-		 		setResult(2,intent);
+		 		setResult(5,intent);
 		 		finish();
 		 	}else{
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		mywakeup.active = true;
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
-		 		setResult(1,intent);
+		 		setResult(4,intent);
 		 		finish();
 		 	}
  	}  
@@ -75,7 +75,7 @@ public class WakeupsettingsActivity extends Activity {
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		mywakeup.active = true;
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
-		 		setResult(3,intent);
+		 		setResult(6,intent);
 		 		finish();
 		 	
 	} 

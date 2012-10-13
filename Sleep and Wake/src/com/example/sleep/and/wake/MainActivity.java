@@ -1,5 +1,7 @@
 package com.example.sleep.and.wake;
 
+import java.io.Serializable;
+
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,16 +14,17 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	int requestCode;
-	public int numberofwakeups = 0;
-	public static WakeupObject wakeups[] = new WakeupObject[5];
-			
-	Button wake[] = new Button[5];
-	Button waketext[] = new Button[5];
-	
+	int requestCodeWakeup = 0;
+	int requestCodeSleep = 1;
+	LinearLayout linearlayout_wake;
+	LinearLayout linearlayout_sleep;
+	LinearLayout linearlayout_main;
+	WakeupPanel mywakeup;
+	SleepPanel mysleep;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,140 +33,114 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         
-        for(int i=0;i<5;i++)
-        	wakeups[i] = new WakeupObject(i);
+        /***get layout for wakeup panels and for sleep panels***/
+        linearlayout_wake = (LinearLayout) findViewById(R.id.linearlayout_wakeup);
+        linearlayout_sleep = (LinearLayout) findViewById(R.id.linearlayout_sleep);
+        linearlayout_main = (LinearLayout) findViewById(R.id.linearlayout_main);
+               
+        createNewWakeupPanel();
+        createNewSleepPanel();
         
-        setupButtons();
-        
-        waketext[0].setOnClickListener(new OnClickListener() {  
-       	    public void onClick(View view) { 
-            	wakeupSettings(view,0);
-            }  
-        });
-        waketext[1].setOnClickListener(new OnClickListener() {  
-       	    public void onClick(View view) { 
-            	wakeupSettings(view,1);
-            }  
-        });
-        waketext[2].setOnClickListener(new OnClickListener() {  
-       	    public void onClick(View view) { 
-            	wakeupSettings(view,2);
-            }  
-        });
-        waketext[3].setOnClickListener(new OnClickListener() {  
-       	    public void onClick(View view) { 
-            	wakeupSettings(view,3);
-            }  
-        });
-        waketext[4].setOnClickListener(new OnClickListener() {  
-       	    public void onClick(View view) { 
-            	wakeupSettings(view,4);
-            }  
-        });
     }
-   
-    void setupButtons(){
-    	wake[0] = (Button) findViewById(R.id.button_wakeup0);
-    	wake[1] = (Button) findViewById(R.id.button_wakeup1);
-    	wake[2] = (Button) findViewById(R.id.button_wakeup2);
-    	wake[3] = (Button) findViewById(R.id.button_wakeup3);
-    	wake[4] = (Button) findViewById(R.id.button_wakeup4);
-    	waketext[0] = (Button) findViewById(R.id.button_textwakeup0);
-    	waketext[1] = (Button) findViewById(R.id.button_textwakeup1);
-    	waketext[2] = (Button) findViewById(R.id.button_textwakeup2);
-    	waketext[3] = (Button) findViewById(R.id.button_textwakeup3);
-    	waketext[4] = (Button) findViewById(R.id.button_textwakeup4);
-    	
-    }
+       
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
-    	WakeupObject tmpwakeup ;
-    	WakeupObject nextwakeup;
-        tmpwakeup= (WakeupObject)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
-        wakeups[tmpwakeup.id] = tmpwakeup;        
-        if(tmpwakeup.active == true){
-        	if(tmpwakeup.id<=5)
-        		setwakeoutput(tmpwakeup.id);
-        	if(tmpwakeup.id<4 ){
-        		nextwakeup=wakeups[tmpwakeup.id+1];
-        		if(nextwakeup.active == false)
-        			setnextwakelayout(tmpwakeup.id+1);
-        	}
-        }else{
-        	numberofwakeups--;
-        }
-        TextView tv = (TextView) findViewById(R.id.textView1);
-        tv.setText(Integer.toString(numberofwakeups));
-    }
-    
-    
-    public void wakeupSettings(View view,int i){
-    	Intent intent = new Intent(this, WakeupsettingsActivity.class);
-    	if(i==0)
-    		intent.putExtra("MAIN_MESSAGE_WAKE", wakeups[0]);
-    	if(i==1)
-    		intent.putExtra("MAIN_MESSAGE_WAKE", wakeups[1]);
-    	if(i==2)
-    		intent.putExtra("MAIN_MESSAGE_WAKE", wakeups[2]);
-    	if(i==3)
-    		intent.putExtra("MAIN_MESSAGE_WAKE", wakeups[3]);
-    	if(i==4)
-    		intent.putExtra("MAIN_MESSAGE_WAKE", wakeups[4]);
-  		  		
-  		numberofwakeups++;
-  		startActivityForResult(intent,requestCode);
-  	}  
-    public void setnextwakelayout(int i){
-    	if(i==1){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup1);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup1);
+    		WakeupSettings mywakeupsettings;
+    		SleepSettings mysleepsettings;
+    	if(resultCode == 1){//WakeupControlpanel was saved by user and is now active & its a new created panel
+    		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mywakeup.fadein = mywakeupsettings.fadein;
+    		mywakeup.wakeuptime = mywakeupsettings.wakeuptime;
+    		mywakeup.fadeintime = mywakeupsettings.fadeintime;
+    		mywakeup.ownmusic = mywakeupsettings.ownmusic;
+    		mywakeup.active = mywakeupsettings.active;
+    		mywakeup.showSettings();
+    		mywakeup.setActive();
+    		createNewWakeupPanel();
     	}
-    	if(i==2){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup2);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup2);
-    	}if(i==3){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup3);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup3);
-    	}if(i==4){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup4);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup4);
+    	if(resultCode == 2){//panel was already there but has been changed
+    		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mywakeup.fadein = mywakeupsettings.fadein;
+    		mywakeup.wakeuptime = mywakeupsettings.wakeuptime;
+    		mywakeup.fadeintime = mywakeupsettings.fadeintime;
+    		mywakeup.ownmusic = mywakeupsettings.ownmusic;
+    		mywakeup.active = mywakeupsettings.active;
+    		mywakeup.showSettings();
+    		setContentView(linearlayout_main);
     	}
-    		wake[i].setVisibility(0);
-    		waketext[i].setVisibility(0);
+    	if(resultCode == 3){
+    		if(mywakeup.active){
+    			WakeupPanel tmp;
+    			tmp = mywakeup;
+    			tmp.remove(linearlayout_wake);
+    			setContentView(linearlayout_main);
+    		}
+    	}
+    	if(resultCode == 4){//SleepControlpanel was saved by user and is now active & its a new created panel
+    		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mysleep.fadeout = mysleepsettings.fadeout;
+    		mysleep.fadeouttime = mysleepsettings.fadeouttime;
+    		mysleep.ownmusic = mysleepsettings.ownmusic;
+    		mysleep.active = mysleepsettings.active;
+    		mysleep.showSettings();
+    		mysleep.setActive();
+    		createNewSleepPanel();
+    	}
+    	if(resultCode == 5){//panel was already there but has been changed
+    		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mysleep.fadeout = mysleepsettings.fadeout;
+    		mysleep.fadeouttime = mysleepsettings.fadeouttime;
+    		mysleep.ownmusic = mysleepsettings.ownmusic;
+    		mysleep.active = mysleepsettings.active;
+    		mysleep.showSettings();
+    		setContentView(linearlayout_main);
+    	}
+    	if(resultCode == 6){
+    		if(mysleep.active){
+    			SleepPanel tmp;
+    			tmp = mysleep;
+    			tmp.remove(linearlayout_sleep);
+    			setContentView(linearlayout_main);
+    		}
+    	}
     	
     }
-    public void setwakeoutput(int i){
-    	String wakemsg = "";
-    	if(i==0){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup0);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup0);
-    	}
-    	if(i==1){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup1);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup1);
-    	}
-    	if(i==2){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup2);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup2);
-    	}
-    	if(i==3){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup3);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup3);
-    	}if(i==4){
-    		wake[i] = (Button) findViewById(R.id.button_wakeup4);
-    		waketext[i] = (Button) findViewById(R.id.button_textwakeup4);
-    	}
-		wake[i].setBackgroundColor(Color.argb(255, 255, 0, 0));
-		waketext[i].setBackgroundColor(Color.argb(255, 30, 144, 255));
-		if(wakeups[i].fadein){
-			wakemsg += "FadeIn: ON";
-			wakemsg += ", FadeIn Time:"+Float.toString(wakeups[i].fadeintime);
-		}
-		else
-			wakemsg += "FadeIn: OFF";
-		
-		waketext[i].setText(wakemsg);
+        
+    public void createNewWakeupPanel(){
+    	/***initialize the first wakeup and sleep panel***/
+        final WakeupPanel initialwakeup = new WakeupPanel(this,this);
+        initialwakeup.activate(linearlayout_wake);
+        //ToDo: add a sleep panel
+        
+        setContentView(linearlayout_main);
     }
+    
+    public void createNewSleepPanel(){
+    	/***initialize the first wakeup and sleep panel***/
+        final SleepPanel initialsleep = new SleepPanel(this,this);
+        initialsleep.activate(linearlayout_sleep);
+        //ToDo: add a sleep panel
+        
+        setContentView(linearlayout_main);
+    }
+    
+    public void wakeupSettings(WakeupPanel tmpp){
+    	mywakeup = tmpp;
+    	Intent intent = new Intent(this, WakeupsettingsActivity.class);
+    	WakeupSettings mysettings = new WakeupSettings(tmpp.fadein,tmpp.wakeuptime,tmpp.fadeintime,tmpp.ownmusic,tmpp.active);
+    	intent.putExtra("MAIN_MESSAGE_WAKE", mysettings);
+    	startActivityForResult(intent,requestCodeWakeup);
+    	
+  	}  
+    
+    public void sleepSettings(SleepPanel tmpp){
+    	mysleep = tmpp;
+    	Intent intent = new Intent(this, SleepsettingsActivity.class);
+    	SleepSettings mysettings = new SleepSettings(tmpp.fadeout,tmpp.fadeouttime,tmpp.ownmusic,tmpp.active);
+    	intent.putExtra("MAIN_MESSAGE_WAKE", mysettings);
+    	startActivityForResult(intent,requestCodeSleep);
+    	
+  	}
       
 }

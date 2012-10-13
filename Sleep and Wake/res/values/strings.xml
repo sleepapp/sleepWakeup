@@ -9,6 +9,8 @@
     <string name="textview_default">Click to add</string>
     <string name="textview_fadein">FadeIn:</string>
     <string name="textview_fadeintime">FadeIn Time:</string>
+    <string name="textview_fadeout">FadeOut:</string>
+    <string name="textview_fadeouttime">FadeOut Time:</string>
     <string name="textview_fadeinminute">minutes</string>
     <string name="edittext_fadeintime">15</string>
     <string name="button_savewakeupsettings">Save Settings</string>
@@ -16,6 +18,7 @@
     <string name="button_plus">+</string>
 	<string name="radiobutton_on">On</string>
 	<string name="radiobutton_off">Off</string>
+	<string name="button_delete">Delete</string>
 	
     
     <color name="red">#FF0000</color>
