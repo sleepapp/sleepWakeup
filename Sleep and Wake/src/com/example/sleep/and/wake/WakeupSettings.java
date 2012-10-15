@@ -14,12 +14,18 @@ public class WakeupSettings implements Serializable {
 	boolean ownmusic; //should alarm tone be own music or default (false default, true own)
 	boolean active; //shows if wakeup is active
 		
-	public WakeupSettings(boolean fadeinext,Date wakeuptimeext,float fadeintimeext,boolean ownmusicext,boolean activeext){
-		fadein = fadeinext;
-		wakeuptime = wakeuptimeext;
-		fadeintime = fadeintimeext;
-		ownmusic = ownmusicext;
-		active = activeext;
+	public WakeupSettings(/*boolean fadeinext,Date wakeuptimeext,float fadeintimeext,boolean ownmusicext,boolean activeext*/){
+//		fadein = fadeinext;
+//		wakeuptime = wakeuptimeext;
+//		fadeintime = fadeintimeext;
+//		ownmusic = ownmusicext;
+//		active = activeext;
+		
+		fadein = false;
+		wakeuptime = null;
+		fadeintime = 15.0f;
+		ownmusic = false;
+		active = false;
 		
 	}
 }

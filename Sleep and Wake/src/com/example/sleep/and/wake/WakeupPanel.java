@@ -10,31 +10,23 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.view.View.OnClickListener;
 
-public class WakeupPanel extends ControlPanel implements Serializable {
+public class WakeupPanel extends ControlPanel {
 		
 	private static final long serialVersionUID = 2L;
 
 	public MainActivity mainactivity;
-	boolean fadein; //fadein on or off
-	Date wakeuptime; //when should alarm clock ring
-	float fadeintime; //how long should fadein take
-	boolean ownmusic; //should alarm tone be own music or default (false default, true own)
-	boolean active; //shows if wakeup is active
+	WakeupSettings settings;
 	
 	int id;
 	int requestCode;
 		
 	public WakeupPanel(Context context,MainActivity mymain) {
 		super(context);
+		settings = new WakeupSettings();
 		mainactivity = mymain;
-		fadein = false;
-		wakeuptime = null;
-		fadeintime = 15.0f;
-		ownmusic = false;
-		active = false;
 		
 		initializeButtons(context);
-		setInactive(this);
+		setInactive(linear_layout);
 	}
 	
 	public void initializeButtons(Context context){
@@ -67,17 +59,17 @@ public class WakeupPanel extends ControlPanel implements Serializable {
 	}
 	
 	public void showSettings(){
-		if(fadein)
-			button_right_active.setText("Fadein: ON "+Float.toString(fadeintime)+" Minutes");
+		if(settings.fadein)
+			button_right_active.setText("Fadein: ON "+Float.toString(settings.fadeintime)+" Minutes");
 		else
 			button_right_active.setText("Fadein: OFF");
 	}
 	
 	public void setActive(){
-		this.removeView(button_left_shade);
-		this.removeView(button_right_shade);
-		this.addView(button_left_active);
-		this.addView(button_right_active);
+		linear_layout.removeView(button_left_shade);
+		linear_layout.removeView(button_right_shade);
+		linear_layout.addView(button_left_active);
+		linear_layout.addView(button_right_active);
 		
 	}
 	

@@ -47,57 +47,46 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     		WakeupSettings mywakeupsettings;
+    		WakeupPanel mywake;
     		SleepSettings mysleepsettings;
     	if(resultCode == 1){//WakeupControlpanel was saved by user and is now active & its a new created panel
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
-    		mywakeup.fadein = mywakeupsettings.fadein;
-    		mywakeup.wakeuptime = mywakeupsettings.wakeuptime;
-    		mywakeup.fadeintime = mywakeupsettings.fadeintime;
-    		mywakeup.ownmusic = mywakeupsettings.ownmusic;
-    		mywakeup.active = mywakeupsettings.active;
+    		mywakeup.settings = mywakeupsettings;
     		mywakeup.showSettings();
     		mywakeup.setActive();
     		createNewWakeupPanel();
     	}
     	if(resultCode == 2){//panel was already there but has been changed
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
-    		mywakeup.fadein = mywakeupsettings.fadein;
-    		mywakeup.wakeuptime = mywakeupsettings.wakeuptime;
-    		mywakeup.fadeintime = mywakeupsettings.fadeintime;
-    		mywakeup.ownmusic = mywakeupsettings.ownmusic;
-    		mywakeup.active = mywakeupsettings.active;
+    		mywakeup.settings = mywakeupsettings;
     		mywakeup.showSettings();
     		setContentView(linearlayout_main);
     	}
     	if(resultCode == 3){
-    		if(mywakeup.active){
-    			WakeupPanel tmp;
-    			tmp = mywakeup;
-    			tmp.remove(linearlayout_wake);
+    		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mywakeup.settings = mywakeupsettings;
+    		if(mywakeup.settings.active){
+    			mywakeup.remove(linearlayout_wake);
     			setContentView(linearlayout_main);
     		}
     	}
     	if(resultCode == 4){//SleepControlpanel was saved by user and is now active & its a new created panel
     		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
-    		mysleep.fadeout = mysleepsettings.fadeout;
-    		mysleep.fadeouttime = mysleepsettings.fadeouttime;
-    		mysleep.ownmusic = mysleepsettings.ownmusic;
-    		mysleep.active = mysleepsettings.active;
+    		mysleep.settings = mysleepsettings;
     		mysleep.showSettings();
     		mysleep.setActive();
     		createNewSleepPanel();
     	}
     	if(resultCode == 5){//panel was already there but has been changed
     		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
-    		mysleep.fadeout = mysleepsettings.fadeout;
-    		mysleep.fadeouttime = mysleepsettings.fadeouttime;
-    		mysleep.ownmusic = mysleepsettings.ownmusic;
-    		mysleep.active = mysleepsettings.active;
+    		mysleep.settings = mysleepsettings;
     		mysleep.showSettings();
     		setContentView(linearlayout_main);
     	}
     	if(resultCode == 6){
-    		if(mysleep.active){
+    		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		mysleep.settings = mysleepsettings;
+    		if(mysleep.settings.active){
     			SleepPanel tmp;
     			tmp = mysleep;
     			tmp.remove(linearlayout_sleep);
@@ -109,7 +98,7 @@ public class MainActivity extends Activity {
         
     public void createNewWakeupPanel(){
     	/***initialize the first wakeup and sleep panel***/
-        final WakeupPanel initialwakeup = new WakeupPanel(this,this);
+        WakeupPanel initialwakeup = new WakeupPanel(this,this);
         initialwakeup.activate(linearlayout_wake);
         //ToDo: add a sleep panel
         
@@ -128,8 +117,7 @@ public class MainActivity extends Activity {
     public void wakeupSettings(WakeupPanel tmpp){
     	mywakeup = tmpp;
     	Intent intent = new Intent(this, WakeupsettingsActivity.class);
-    	WakeupSettings mysettings = new WakeupSettings(tmpp.fadein,tmpp.wakeuptime,tmpp.fadeintime,tmpp.ownmusic,tmpp.active);
-    	intent.putExtra("MAIN_MESSAGE_WAKE", mysettings);
+    	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeWakeup);
     	
   	}  
@@ -137,8 +125,7 @@ public class MainActivity extends Activity {
     public void sleepSettings(SleepPanel tmpp){
     	mysleep = tmpp;
     	Intent intent = new Intent(this, SleepsettingsActivity.class);
-    	SleepSettings mysettings = new SleepSettings(tmpp.fadeout,tmpp.fadeouttime,tmpp.ownmusic,tmpp.active);
-    	intent.putExtra("MAIN_MESSAGE_WAKE", mysettings);
+    	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeSleep);
     	
   	}

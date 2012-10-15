@@ -13,11 +13,12 @@ public class SleepSettings implements Serializable {
 	boolean ownmusic; //should alarm tone be own music or default (false default, true own)
 	boolean active;
 		
-	public SleepSettings(boolean fadeoutext,float fadeouttimeext,boolean ownmusicext,boolean activeext){
-		fadeout = fadeoutext; 
-		fadeouttime = fadeouttimeext; 
-		ownmusic = ownmusicext; 
-		active = activeext;
+	public SleepSettings(){
+				
+		fadeout = false;
+		fadeouttime = 15.0f;
+		ownmusic = false;
+		active = false;
 		
 	}
 }

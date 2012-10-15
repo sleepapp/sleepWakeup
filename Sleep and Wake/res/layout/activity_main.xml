@@ -6,29 +6,34 @@
     android:layout_height="fill_parent"
     >
 
-    <LinearLayout
-        android:id="@+id/linearlayout_wakeup"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+    <ScrollView 
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@raw/backgroundteststars720x960" >
-        
-       
-    </LinearLayout>
+        android:layout_weight="1">
     
-     <LinearLayout
+    	<LinearLayout
+        	android:id="@+id/linearlayout_wakeup"
+        	android:orientation="vertical"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:background="@raw/backgroundteststars720x960" >
+       
+    	</LinearLayout>
+    </ScrollView>
+     	
+    <ScrollView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+     	
+     	<LinearLayout
         android:id="@+id/linearlayout_sleep"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:background="@raw/tansitiontest720x600" >
         
-    
-    </LinearLayout>
- 
-    
+    	</LinearLayout>
+     </ScrollView>
 </LinearLayout>
 
 
