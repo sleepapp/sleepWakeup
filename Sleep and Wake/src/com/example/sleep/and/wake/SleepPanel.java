@@ -19,6 +19,7 @@ public class SleepPanel extends ControlPanel {
 	
 	int id;
 	int requestCode;
+
 		
 	public SleepPanel(Context context,MainActivity mymain) {
 		super(context);
@@ -48,13 +49,14 @@ public class SleepPanel extends ControlPanel {
 		button_right_shade.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,80));
 		
 		
-		
+		//In the case of an inactive button
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
 				sleep();
 			}
 		});
 		
+		//In the case of an active button
 		button_right_active.setOnClickListener(new OnClickListener() {  
 	   	    public void onClick(View view) { 
 	   	    	sleep();
@@ -85,6 +87,7 @@ public class SleepPanel extends ControlPanel {
 	public void setInactive(ViewGroup view){
 		view.addView(button_left_shade);
 		view.addView(button_right_shade);
+	
 	}
 		
 }
