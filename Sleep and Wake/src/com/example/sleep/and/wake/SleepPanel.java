@@ -89,6 +89,7 @@ public class SleepPanel extends ControlPanel {
 		else
 			tmpstring += " Display Fadeout: OFF";
 					
+		button_right_active.setTextSize(10);
 		button_right_active.setText(tmpstring);
 		
 	}
