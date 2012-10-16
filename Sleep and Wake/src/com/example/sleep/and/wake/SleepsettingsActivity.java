@@ -71,18 +71,20 @@ public class SleepsettingsActivity extends Activity {
  	}  
 	 
 	 public void deleteWakeupSettings(View view){
-		 	
-		 		Intent intent = new Intent(this, MainActivity.class);
-		 		mywakeup.active = true;
+		  // Before delete ,check it's now active or not.
+		   if(mywakeup.active == true){
+		 		Intent intent = new Intent(this, MainActivity.class);		
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 		 		setResult(6,intent);
+		 	}
 		 		finish();
 		 	
 	} 
 	 
 	 public void cancelWakeupSettings(View view){
+		   // In this case if the cancel button is pressing, it should do nothing just save the previous setting
 	  		Intent intent = new Intent(this, MainActivity.class);
-	  		mywakeup.active = false;
+	  		//mywakeup.active = false;  
 	  		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 	  		setResult(0,intent);
 	  		finish();

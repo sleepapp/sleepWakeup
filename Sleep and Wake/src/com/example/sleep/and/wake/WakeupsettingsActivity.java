@@ -71,18 +71,19 @@ public class WakeupsettingsActivity extends Activity {
  	}  
 	 
 	 public void deleteWakeupSettings(View view){
-		 	
+		 // Before delete ,check it's now active or not.
+		   if(mywakeup.active == true){
 		 		Intent intent = new Intent(this, MainActivity.class);
-		 		mywakeup.active = true;
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 		 		setResult(3,intent);
+		   }
 		 		finish();
 		 	
 	} 
 	 
 	 public void cancelWakeupSettings(View view){
 	  		Intent intent = new Intent(this, MainActivity.class);
-	  		mywakeup.active = false;
+	  		//mywakeup.active = false;
 	  		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 	  		setResult(0,intent);
 	  		finish();
