@@ -20,7 +20,7 @@ import android.widget.RadioButton;
 public class SleepsettingsActivity extends Activity {
 	
 	SleepSettings mywakeup;
-	RadioButton rbfadeouton,rbfadeoutoff;
+	RadioButton rbfadeouton,rbfadeoutoff,rbfadeoutdisplayon,rbfadeoutdisplayoff;
 	EditText editfadeouttime;
 	
 	@Override
@@ -36,12 +36,20 @@ public class SleepsettingsActivity extends Activity {
 	        
 	        rbfadeouton = (RadioButton) findViewById(R.id.radioButton_fadeouton);
 	        rbfadeoutoff = (RadioButton) findViewById(R.id.radioButton_fadeoutoff);
+	        rbfadeoutdisplayon = (RadioButton) findViewById(R.id.radioButton_fadeoutdisplayon);
+	        rbfadeoutdisplayoff = (RadioButton) findViewById(R.id.radioButton_fadeoutdisplayoff);
+	        
 	        editfadeouttime = (EditText) findViewById(R.id.edit_fadeouttime);
 	        
 	        if(mywakeup.fadeout == true)
 	        	rbfadeouton.setChecked(true);
 	        else
 	        	rbfadeoutoff.setChecked(true);
+	        
+	        if(mywakeup.displayfadeout == true)
+	        	rbfadeoutdisplayon.setChecked(true);
+	        else
+	        	rbfadeoutdisplayoff.setChecked(true);
 	        
 	        editfadeouttime.setText(Float.toString(mywakeup.fadeouttime));
 	                
@@ -55,6 +63,11 @@ public class SleepsettingsActivity extends Activity {
 		 		mywakeup.fadeout = true;
 		 	else
 		 		mywakeup.fadeout = false;
+		 	
+		 	if(rbfadeoutdisplayon.isChecked())
+		 		mywakeup.displayfadeout = true;
+		 	else
+		 		mywakeup.displayfadeout = false;
 		 
 		 	if(mywakeup.active){
 		 		Intent intent = new Intent(this, MainActivity.class);

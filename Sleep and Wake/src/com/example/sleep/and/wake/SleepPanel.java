@@ -12,10 +12,9 @@ import android.view.View.OnClickListener;
 
 public class SleepPanel extends ControlPanel {
 		
-	private static final long serialVersionUID = 2L;
-
 	public MainActivity mainactivity;
 	SleepSettings settings;
+	boolean sleep_active;
 	
 	int id;
 	int requestCode;
@@ -23,6 +22,7 @@ public class SleepPanel extends ControlPanel {
 	public SleepPanel(Context context,MainActivity mymain) {
 		super(context);
 		mainactivity = mymain;
+		sleep_active = false;
 		settings = new SleepSettings();		
 		initializeButtons(context);
 		setInactive(linear_layout);
@@ -34,10 +34,10 @@ public class SleepPanel extends ControlPanel {
 		button_left_shade = new Button(context);
 		button_right_shade = new Button(context);
 		
-		button_left_active.setBackgroundResource(R.raw.buttontestsleep120x120);
-		button_right_active.setBackgroundResource(R.raw.buttontestsleep600x120);
-		button_left_shade.setBackgroundResource(R.raw.buttontestsleepshade120x120);
-		button_right_shade.setBackgroundResource(R.raw.buttontestsleepshade600x120);
+		button_left_active.setBackgroundResource(R.drawable.buttontestsleep120x120);
+		button_right_active.setBackgroundResource(R.drawable.buttontestsleep600x120);
+		button_left_shade.setBackgroundResource(R.drawable.buttontestsleepshade120x120);
+		button_right_shade.setBackgroundResource(R.drawable.buttontestsleepshade600x120);
 		
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
@@ -51,6 +51,16 @@ public class SleepPanel extends ControlPanel {
 	   	    }
 		});
 		
+		button_left_active.setOnClickListener(new OnClickListener() {  
+	   	    public void onClick(View view) { 
+	   	    	startsleep();
+	   	   	}
+		});
+		
+	}
+	
+	public void startsleep(){
+		mainactivity.startsleep(this);
 	}
 	
 	public void sleep(){
@@ -58,10 +68,19 @@ public class SleepPanel extends ControlPanel {
 	}
 	
 	public void showSettings(){
+		String tmpstring = "";
 		if(settings.fadeout)
-			button_right_active.setText("Fadeout: ON "+Float.toString(settings.fadeouttime)+" Minutes");
+			tmpstring += "Music Fadeout: ON "+Float.toString(settings.fadeouttime)+" Minutes\n";
 		else
-			button_right_active.setText("Fadeout: OFF");
+			tmpstring += "Music Fadeout: OFF\n";
+			
+		if(settings.displayfadeout)
+			tmpstring += " Display Fadeout: ON "+Float.toString(settings.fadeouttime)+" Minutes";
+		else
+			tmpstring += " Display Fadeout: OFF";
+					
+		button_right_active.setText(tmpstring);
+		
 	}
 	
 	public void setActive(){

@@ -11,12 +11,10 @@ import android.widget.LinearLayout;
 import android.view.View.OnClickListener;
 
 public class WakeupPanel extends ControlPanel {
-		
-	private static final long serialVersionUID = 2L;
-
+	
 	public MainActivity mainactivity;
 	WakeupSettings settings;
-	
+		
 	int id;
 	int requestCode;
 		
@@ -24,7 +22,7 @@ public class WakeupPanel extends ControlPanel {
 		super(context);
 		settings = new WakeupSettings();
 		mainactivity = mymain;
-		
+				
 		initializeButtons(context);
 		setInactive(linear_layout);
 	}
@@ -34,11 +32,12 @@ public class WakeupPanel extends ControlPanel {
 		button_right_active = new Button(context);
 		button_left_shade = new Button(context);
 		button_right_shade = new Button(context);
-		
-		button_left_active.setBackgroundResource(R.raw.buttontestwake120x120);
-		button_right_active.setBackgroundResource(R.raw.buttontestwake600x120);
-		button_left_shade.setBackgroundResource(R.raw.buttontestwakeshade120x120);
-		button_right_shade.setBackgroundResource(R.raw.buttontestwakeshade600x120);
+						
+		button_left_active.setBackgroundResource(R.drawable.buttontestwake120x120);
+		button_right_active.setBackgroundResource(R.drawable.buttontestwake600x120);
+		button_left_shade.setBackgroundResource(R.drawable.buttontestwakeshade120x120);
+		button_right_shade.setBackgroundResource(R.drawable.buttontestwakeshade600x120);
+				
 		
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
@@ -51,7 +50,7 @@ public class WakeupPanel extends ControlPanel {
 	   	    	wakeup();
 	   	    }
 		});
-		
+				
 	}
 	
 	public void wakeup(){
@@ -59,10 +58,13 @@ public class WakeupPanel extends ControlPanel {
 	}
 	
 	public void showSettings(){
+		String tmpstring = "";
 		if(settings.fadein)
-			button_right_active.setText("Fadein: ON "+Float.toString(settings.fadeintime)+" Minutes");
+			tmpstring += "Fadein: ON "+Float.toString(settings.fadeintime)+" Minutes";
 		else
-			button_right_active.setText("Fadein: OFF");
+			tmpstring += "Fadein: OFF";
+		
+		button_right_active.setText(tmpstring);
 	}
 	
 	public void setActive(){
