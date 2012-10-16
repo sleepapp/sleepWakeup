@@ -9,9 +9,10 @@
     <string name="textview_default">Click to add</string>
     <string name="textview_fadein">FadeIn:</string>
     <string name="textview_fadeintime">FadeIn Time:</string>
-    <string name="textview_fadeout">FadeOut:</string>
+    <string name="textview_fadeout">Music FadeOut:</string>
     <string name="textview_fadeouttime">FadeOut Time:</string>
     <string name="textview_fadeinminute">minutes</string>
+    <string name="textview_fadeoutdisplay">Display FadeOut:</string>
     <string name="edittext_fadeintime">15</string>
     <string name="button_savewakeupsettings">Save Settings</string>
     <string name="button_cancelwakeupsettings">Abort</string>

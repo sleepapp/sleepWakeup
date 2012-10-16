@@ -34,6 +34,36 @@
 		</RadioGroup>
 	</LinearLayout>
 	   
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/textview_fadeoutdisplay" />
+		
+        <RadioGroup
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal">
+            
+        <RadioButton
+            android:id="@+id/radioButton_fadeoutdisplayon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_on" />
+
+    	<RadioButton
+        	android:id="@+id/radioButton_fadeoutdisplayoff"
+       		android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/radiobutton_off" />
+		</RadioGroup>
+	</LinearLayout>
     
     <LinearLayout 
       		android:layout_width="fill_parent"
@@ -58,6 +88,7 @@
     		android:text="@string/textview_fadeinminute"/>
 	</LinearLayout>
     
+     
     
     <LinearLayout 
         android:layout_width="fill_parent"

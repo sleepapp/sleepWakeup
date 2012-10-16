@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 	LinearLayout linearlayout_main;
 	WakeupPanel mywakeup;
 	SleepPanel mysleep;
+	boolean playerisready = true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,12 @@ public class MainActivity extends Activity {
         createNewSleepPanel();
         
     }
-       
+    
+    public void onResume(){
+    	super.onResume(); 
+    	if(playerisready == false)
+    		playerisready = true;
+    }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
@@ -119,15 +125,21 @@ public class MainActivity extends Activity {
     	Intent intent = new Intent(this, WakeupsettingsActivity.class);
     	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeWakeup);
-    	
   	}  
-    
     public void sleepSettings(SleepPanel tmpp){
     	mysleep = tmpp;
     	Intent intent = new Intent(this, SleepsettingsActivity.class);
     	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeSleep);
-    	
   	}
+    
+    public void startsleep(SleepPanel tmpp){
+    	if(playerisready){
+    		playerisready = false;
+    		Intent intent = new Intent(this, SleepactionActivity.class);
+        	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
+        	startActivityForResult(intent,requestCodeSleep);
+    	}
+    }
       
 }

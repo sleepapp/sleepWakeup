@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class ControlPanel{
-		
-	private static final long serialVersionUID = 1L;
+
 	Button button_left_active;
 	Button button_right_active;
 	Button button_left_shade;
@@ -20,6 +19,7 @@ public class ControlPanel{
 	public ControlPanel(Context context) {
 		linear_layout = new LinearLayout(context);
 		linear_layout.setOrientation(0);
+		linear_layout.setGravity(17);
 	}
 	
 	public void activate(ViewGroup view){
