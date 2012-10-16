@@ -90,12 +90,14 @@ public class WakeupPanel extends ControlPanel {
 		linear_layout.removeView(button_right_shade);
 		linear_layout.addView(button_left_active);
 		linear_layout.addView(button_right_active);
+
 		
 	}
 	
 	public void setInactive(ViewGroup view){
 		view.addView(button_left_shade);
 		view.addView(button_right_shade);
+
 	}
 		
 }
