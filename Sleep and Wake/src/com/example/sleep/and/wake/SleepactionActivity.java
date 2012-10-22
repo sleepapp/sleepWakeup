@@ -1,5 +1,5 @@
 package com.example.sleep.and.wake;
-
+import android.content.res.Configuration;
 import java.io.Serializable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -44,5 +44,12 @@ public class SleepactionActivity extends Activity {
 		//initialize the player and start at the saved point with saved volume
 		
 	}
+
+	 @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    	// TODO Auto-generated method stub
+    	super.onConfigurationChanged(newConfig);
+    	//Log.i("-----MainActivity-----", "Call onConfigurationChanged");
+    }
 
 }

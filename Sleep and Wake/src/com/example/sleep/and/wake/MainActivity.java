@@ -1,7 +1,7 @@
 package com.example.sleep.and.wake;
 
 import java.io.Serializable;
-
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
@@ -49,7 +49,16 @@ public class MainActivity extends Activity {
     	if(playerisready == false)
     		playerisready = true;
     }
-    
+
+     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    	// TODO Auto-generated method stub
+    	super.onConfigurationChanged(newConfig);
+    	//Log.i("-----MainActivity-----", "Call onConfigurationChanged");
+    }    
+
+
+ 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     		WakeupSettings mywakeupsettings;

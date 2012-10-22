@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+	    android:configChanges="orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,21 +22,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WakeupsettingsActivity">
+            android:name=".WakeupsettingsActivity"
+	    android:configChanges="orientation"  >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myfirstapp.MainActivity" />
             
         </activity>
         <activity
-            android:name=".SleepsettingsActivity">
+            android:name=".SleepsettingsActivity"
+	    android:configChanges="orientation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myfirstapp.MainActivity" />
             
         </activity>
         <activity
-            android:name=".SleepactionActivity">
+            android:name=".SleepactionActivity"
+	    android:configChanges="orientation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myfirstapp.MainActivity" />

@@ -1,5 +1,6 @@
 package com.example.sleep.and.wake;
 
+import android.content.res.Configuration;
 import java.io.Serializable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -101,5 +102,13 @@ public class SleepsettingsActivity extends Activity {
 	  		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 	  		setResult(0,intent);
 	  		finish();
-	  	}  
+	  	}
+
+ 	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    	// TODO Auto-generated method stub
+    	super.onConfigurationChanged(newConfig);
+    	//Log.i("-----MainActivity-----", "Call onConfigurationChanged");
+    }
+  
 }
