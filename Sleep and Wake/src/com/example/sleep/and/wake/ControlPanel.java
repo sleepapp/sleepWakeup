@@ -2,6 +2,7 @@ package com.example.sleep.and.wake;
 
 import java.io.Serializable;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

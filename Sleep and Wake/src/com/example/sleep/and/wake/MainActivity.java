@@ -1,10 +1,15 @@
 package com.example.sleep.and.wake;
 
 import java.io.Serializable;
+import java.util.Calendar;
+
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.Menu;
@@ -16,6 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.os.SystemClock;
 
 public class MainActivity extends Activity {
 	int requestCodeWakeup = 0;
@@ -26,6 +33,10 @@ public class MainActivity extends Activity {
 	WakeupPanel mywakeup;
 	SleepPanel mysleep;
 	boolean playerisready = true;
+	boolean firsttime=true;
+	int globalidcounter = 0;
+	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +59,7 @@ public class MainActivity extends Activity {
     	super.onResume(); 
     	if(playerisready == false)
     		playerisready = true;
+    	
     }
 
      @Override
@@ -113,8 +125,11 @@ public class MainActivity extends Activity {
         
     public void createNewWakeupPanel(){
     	/***initialize the first wakeup and sleep panel***/
-        WakeupPanel initialwakeup = new WakeupPanel(this,this);
+        WakeupPanel initialwakeup = new WakeupPanel(this,this,globalidcounter);
+        globalidcounter++;
         initialwakeup.activate(linearlayout_wake);
+        Context context = this.getApplicationContext();
+        initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
         //ToDo: add a sleep panel
         
         setContentView(linearlayout_main);
@@ -122,7 +137,8 @@ public class MainActivity extends Activity {
     
     public void createNewSleepPanel(){
     	/***initialize the first wakeup and sleep panel***/
-        final SleepPanel initialsleep = new SleepPanel(this,this);
+        final SleepPanel initialsleep = new SleepPanel(this,this,globalidcounter);
+        globalidcounter++;
         initialsleep.activate(linearlayout_sleep);
         //ToDo: add a sleep panel
         
@@ -135,13 +151,14 @@ public class MainActivity extends Activity {
     	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeWakeup);
   	}  
+    
     public void sleepSettings(SleepPanel tmpp){
     	mysleep = tmpp;
     	Intent intent = new Intent(this, SleepsettingsActivity.class);
     	intent.putExtra("MAIN_MESSAGE_WAKE", tmpp.settings);
     	startActivityForResult(intent,requestCodeSleep);
   	}
-    
+            
     public void startsleep(SleepPanel tmpp){
     	if(playerisready){
     		playerisready = false;
@@ -151,4 +168,27 @@ public class MainActivity extends Activity {
     	}
     }
       
+	 public void startwakeup(WakeupPanel tmpp){
+		 Context context = this.getApplicationContext();
+	     if(tmpp.wakeupreceiver != null){
+	    	 if(tmpp.settings.weeklyrepetition == true)
+	    		 tmpp.wakeupreceiver.SetAlarm(context,tmpp);
+	    	 else
+	    		 tmpp.wakeupreceiver.setOnetimeTimer(context,tmpp);
+	     }else{
+	      Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
+	     }
+	    	   	
+	 }
+	    
+	 public void stopwakeup(WakeupPanel tmpp){
+		 Context context = this.getApplicationContext();
+	     if(tmpp.wakeupreceiver != null){
+	    	 tmpp.wakeupreceiver.CancelAlarm(context,tmpp);
+	     }else{
+	      Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
+	     }
+	 }
+    
+    
 }

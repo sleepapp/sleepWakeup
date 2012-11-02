@@ -17,9 +17,20 @@
     <string name="button_savewakeupsettings">Save Settings</string>
     <string name="button_cancelwakeupsettings">Abort</string>
     <string name="button_plus">+</string>
+    <string name="button_play">Play</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_pause">Pause</string>
 	<string name="radiobutton_on">On</string>
 	<string name="radiobutton_off">Off</string>
 	<string name="button_delete">Delete</string>
+	<string name="button_monday">M</string>
+	<string name="button_tuesday">T</string>
+	<string name="button_wednesday">W</string>
+	<string name="button_thursday">T</string>
+	<string name="button_friday">F</string>
+	<string name="button_saturday">S</string>
+	<string name="button_sunday">S</string>
+	<string name="textview_weeklyrepetition">Weekly repetition</string>
 	
     
     <color name="red">#FF0000</color>

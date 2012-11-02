@@ -57,7 +57,90 @@
     		android:text="@string/textview_fadeinminute"/>
 	</LinearLayout>
     
+    <LinearLayout 
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+      		android:orientation="horizontal">
+       <TimePicker
+        android:id="@+id/timePicker_wakeup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+       
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
     
+    <Button
+        android:id="@+id/button_monday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_monday" />    
+        
+    <Button
+        android:id="@+id/button_tuesday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_tuesday" />
+     
+    <Button
+        android:id="@+id/button_wednesday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_wednesday" />
+      
+    <Button
+        android:id="@+id/button_thursday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_thursday" />
+       
+    <Button
+        android:id="@+id/button_friday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_friday" />
+        
+    <Button
+        android:id="@+id/button_saturday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_saturday" />
+         
+    <Button
+        android:id="@+id/button_sunday"
+        android:layout_width="0dp"
+        android:layout_weight = "1"
+        android:layout_height="wrap_content"
+        android:text="@string/button_sunday" /> 
+    
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    
+    <TextView 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+    		android:text="@string/textview_weeklyrepetition"
+    		android:layout_weight="1"/>
+
+    <CheckBox
+        android:id="@+id/checkBox_weeklyrepetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        
+    </LinearLayout>
+        
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
