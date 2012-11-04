@@ -32,6 +32,7 @@ public class WakeupsettingsActivity extends Activity {
 	Button button_mon,button_tue,button_wed,button_thu,button_fri,button_sat,button_sun;
 	CheckBox checkbox_weeklyrepetition;
 	TimePicker timepicker_wakeuptime;
+	Boolean nodaypicked = true;
 	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class WakeupsettingsActivity extends Activity {
 	         		   mywakeup.sun = false;
 	         		   setinactive(button_sun);
 	         	   }else{
-	         		  mywakeup.tue = true;
+	         		  mywakeup.sun = true;
 	         		  setactive(button_sun);
 	         	   }               
 	            }  
@@ -146,16 +147,14 @@ public class WakeupsettingsActivity extends Activity {
 	        
 	 }
 	      
-	
-	@SuppressWarnings("deprecation")
 	void initialize_components(){
 		if(mywakeup.fadein == true)
         	rbfadeinon.setChecked(true);
         else
         	rbfadeinoff.setChecked(true);
         
-		timepicker_wakeuptime.setCurrentHour(12);
-		timepicker_wakeuptime.setCurrentMinute(0);
+		timepicker_wakeuptime.setCurrentHour(mywakeup.hour);
+		timepicker_wakeuptime.setCurrentMinute(mywakeup.minute);
         editfadeintime.setText(Float.toString(mywakeup.fadeintime));
         
         if(mywakeup.mon == true)
@@ -207,14 +206,12 @@ public class WakeupsettingsActivity extends Activity {
 		mybutton.setBackgroundColor(Color.GRAY);
 	}
 	
-	 @SuppressWarnings("deprecation")
 	public void saveWakeupSettings(View view){
 		 	
 		 	mywakeup.fadeintime = Float.parseFloat(editfadeintime.getText().toString());
-		 			 	
-		 	mywakeup.wakeuptime = Calendar.getInstance();
-		 	mywakeup.wakeuptime.add(Calendar.SECOND,timepicker_wakeuptime.getCurrentHour()*3600 + timepicker_wakeuptime.getCurrentMinute()*60 );
-		 	//is gschmarrie weil ich da nich die zeit aufaddier ??? brainlag
+					 	
+		 	mywakeup.hour = timepicker_wakeuptime.getCurrentHour();
+		 	mywakeup.minute = timepicker_wakeuptime.getCurrentMinute();
 		 	
 		 	if(checkbox_weeklyrepetition.isChecked())
 		 		mywakeup.weeklyrepetition = true;
@@ -225,7 +222,29 @@ public class WakeupsettingsActivity extends Activity {
 		 		mywakeup.fadein = true;
 		 	else
 		 		mywakeup.fadein = false;
-		 
+		 	
+		 	//if the user didnt pick any day, the actual day is taken
+		 	if(mywakeup.sun || mywakeup.mon || mywakeup.tue || mywakeup.wed || mywakeup.thu || mywakeup.fri || mywakeup.sat)
+		 		nodaypicked = false;
+		 	
+		 	if(nodaypicked = true){
+		 		Calendar calNow = Calendar.getInstance();
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 1)
+		 			mywakeup.sun = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 2)
+		 			mywakeup.mon = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 3)
+		 			mywakeup.tue = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 4)
+		 			mywakeup.wed = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 5)
+		 			mywakeup.thu = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 6)
+		 			mywakeup.fri = true;
+		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 7)
+		 			mywakeup.sat = true;
+		 	}
+		 	
 		 	if(mywakeup.active){
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);

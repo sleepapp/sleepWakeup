@@ -25,7 +25,7 @@ public class WakeupPanel extends ControlPanel {
 	WakeupBroadcastReceiver wakeupreceiver;
 	PendingIntent pendingintent;
 	Intent wakeupintent;
-	AlarmManager wakeupalarmmanager;
+	AlarmManager wakeupalarmmanager[] = new AlarmManager[7];
 	int id;
 	int requestCode;
 		
@@ -36,7 +36,8 @@ public class WakeupPanel extends ControlPanel {
 		mainactivity = mymain;
 		pendingintent = null;
 		wakeupintent = null;
-		wakeupalarmmanager = null;
+		for(int i=0;i<7;i++)
+			wakeupalarmmanager[i] = null;
 		id = myid;
 		initializeButtons(context);
 		setInactive(linear_layout);

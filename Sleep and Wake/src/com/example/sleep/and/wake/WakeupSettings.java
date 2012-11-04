@@ -10,17 +10,19 @@ public class WakeupSettings implements Serializable {
 	 */
 	private static final long serialVersionUID = 4L;
 	boolean fadein; //fadein on or off
-	Calendar wakeuptime; //when should alarm clock ring
 	float fadeintime; //how long should fadein take
 	boolean ownmusic; //should alarm tone be own music or default (false default, true own)
 	boolean active; //shows if wakeup is active
 	boolean mon,tue,wed,thu,fri,sat,sun;
 	boolean weeklyrepetition;
 	boolean alarmstate; //used to check if the alarm is started or not
-		
-	@SuppressWarnings("deprecation")
+	int hour; //when should alarm clock ring
+	int minute; //when should alarm clock ring
+	
+	
 	public WakeupSettings(){
-		wakeuptime = null;
+		hour = 12;
+		minute = 0;
 		fadein = false;
 		fadeintime = 15.0f;
 		ownmusic = false;
