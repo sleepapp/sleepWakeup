@@ -39,17 +39,7 @@ public class SleepPanel extends ControlPanel {
 		button_right_active.setBackgroundResource(R.drawable.buttontestsleep600x120);
 		button_left_shade.setBackgroundResource(R.drawable.buttontestsleepshade120x120);
 		button_right_shade.setBackgroundResource(R.drawable.buttontestsleepshade600x120);
-		
-		// Set the buttons size 80x80 pixels 
-		// Maybe we can set the size of buttons corresponding to different screen sizes. etc.
-		// Somehow it's possible to read the actual screen size -> but i don't know it now .:D
-		button_left_active.setLayoutParams(new LinearLayout.LayoutParams(80,80));
-		button_right_active.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,80));
-		button_left_shade.setLayoutParams(new LinearLayout.LayoutParams(80,80));
-		button_right_shade.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,80));
-		
-		
-		
+	
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
 				sleep();
@@ -63,7 +53,8 @@ public class SleepPanel extends ControlPanel {
 		});
 		
 		button_left_active.setOnClickListener(new OnClickListener() {  
-	   	    public void onClick(View view) {
+			//if music or displayfadeout is true start the function
+			public void onClick(View view) {
 	   	    	if(settings.fadeout)
 	   	    		startsleep();
 	   	    	else if(settings.displayfadeout)
@@ -93,7 +84,7 @@ public class SleepPanel extends ControlPanel {
 		else
 			tmpstring += " Display Fadeout: OFF";
 					
-		button_right_active.setTextSize(10);
+		button_right_active.setTextSize(12);
 		button_right_active.setText(tmpstring);
 		
 	}

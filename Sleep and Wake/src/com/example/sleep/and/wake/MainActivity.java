@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
         linearlayout_sleep = (LinearLayout) findViewById(R.id.linearlayout_sleep);
         linearlayout_main = (LinearLayout) findViewById(R.id.linearlayout_main);
                
+        //create to default(emtpy) panels
         createNewWakeupPanel();
         createNewSleepPanel();
         
@@ -169,6 +170,7 @@ public class MainActivity extends Activity {
     }
       
 	 public void startwakeup(WakeupPanel tmpp){
+		 mywakeup = tmpp;
 		 Context context = this.getApplicationContext();
 	     if(tmpp.wakeupreceiver != null){
 	    	 if(tmpp.settings.weeklyrepetition == true)
@@ -182,6 +184,7 @@ public class MainActivity extends Activity {
 	 }
 	    
 	 public void stopwakeup(WakeupPanel tmpp){
+		 mywakeup = tmpp;
 		 Context context = this.getApplicationContext();
 	     if(tmpp.wakeupreceiver != null){
 	    	 tmpp.wakeupreceiver.CancelAlarm(context,tmpp);

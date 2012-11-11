@@ -10,4 +10,11 @@
         android:text="ALARM ALARM"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <Button
+        android:id="@+id/button_stopalarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop the alarm"
+        android:onClick="stopalarm" />
+
 </LinearLayout>

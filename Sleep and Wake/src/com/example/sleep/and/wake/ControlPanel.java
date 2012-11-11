@@ -23,15 +23,17 @@ public class ControlPanel{
 		linear_layout.setGravity(17);
 	}
 	
+	//activate in this case means, make it visual -> not to mix up with the "active" variable
 	public void activate(ViewGroup view){
 		view.removeView(linear_layout);
 		view.addView(linear_layout);
-		//evtl. hier irgendwie setContentView() aufrufen ?!?
+		
 	}
 	
+	//remove panel from current view
 	public void remove(ViewGroup view){
 		view.removeView(linear_layout);
-		//ControlPanel muss hier gelöscht werden, so dass keine Reste übrig bleiben evtl.
+		
 	}
 	
 }

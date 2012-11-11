@@ -38,8 +38,8 @@ public class WakeupsettingsActivity extends Activity {
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        
-	        requestWindowFeature(Window.FEATURE_NO_TITLE);
-	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//	        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        setContentView(R.layout.activity_wakeupsettings);
 	        
 	        Intent intent = getIntent();
@@ -220,8 +220,9 @@ public class WakeupsettingsActivity extends Activity {
 		 	
 		 	if(rbfadeinon.isChecked())
 		 		mywakeup.fadein = true;
-		 	else
+		 	else if(rbfadeinoff.isChecked())
 		 		mywakeup.fadein = false;
+		 	
 		 	
 		 	//if the user didnt pick any day, the actual day is taken
 		 	if(mywakeup.sun || mywakeup.mon || mywakeup.tue || mywakeup.wed || mywakeup.thu || mywakeup.fri || mywakeup.sat)
@@ -260,7 +261,7 @@ public class WakeupsettingsActivity extends Activity {
  	}  
 	 
 	 public void deleteWakeupSettings(View view){
-		 // Before delete ,check it's now active or not.
+		 // Before delete ,check if it's now active or not.
 		   if(mywakeup.active == true){
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
@@ -273,7 +274,6 @@ public class WakeupsettingsActivity extends Activity {
 	 public void cancelWakeupSettings(View view){
 
 	  		Intent intent = new Intent(this, MainActivity.class);
-	  		//mywakeup.active = false;
 	  		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);
 	  		setResult(0,intent);
 	  		finish();

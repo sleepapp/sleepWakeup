@@ -54,25 +54,7 @@ public class WakeupPanel extends ControlPanel {
 		button_right_active.setBackgroundResource(R.drawable.buttontestwake600x120);
 		button_left_shade.setBackgroundResource(R.drawable.buttontestwakeshade120x120);
 		button_right_shade.setBackgroundResource(R.drawable.buttontestwakeshade600x120);
-				
-
-//		button_left_active.setBackgroundResource(R.raw.buttontestwake120x120);
-//		button_right_active.setBackgroundResource(R.raw.buttontestwake600x120);
-//		button_left_shade.setBackgroundResource(R.raw.buttontestwakeshade120x120);
-//		button_right_shade.setBackgroundResource(R.raw.buttontestwakeshade600x120);
-
-		
-		// Set the buttons size 80x80 pixels 
-		// Maybe we can set the size of buttons corresponding to screen size of smart phone. etc.
-		// Somehow is possible to read the actual screen size -> but i don't know it now .
-		button_left_active.setLayoutParams(new LinearLayout.LayoutParams(80,80));
-		button_right_active.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,80));
-		button_left_shade.setLayoutParams(new LinearLayout.LayoutParams(80,80));
-		button_right_shade.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,80));
-		
-		
-		
-		
+	
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
 				wakeup();
@@ -115,11 +97,13 @@ public class WakeupPanel extends ControlPanel {
 	
 	public void showSettings(){
 		String tmpstring = "";
+		tmpstring += "Waketime: " + settings.hour + "." + settings.minute +"\n";
+		
 		if(settings.fadein)
-			tmpstring += "Fadein: ON "+Float.toString(settings.fadeintime)+" Minutes";
+			tmpstring += "Fadein: "+Float.toString(settings.fadeintime)+" Minutes";
 		else
 			tmpstring += "Fadein: OFF";
-		button_right_active.setTextSize(10);
+		button_right_active.setTextSize(12);
 		button_right_active.setText(tmpstring);
 	}
 	

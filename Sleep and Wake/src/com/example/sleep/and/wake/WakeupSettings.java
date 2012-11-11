@@ -21,10 +21,10 @@ public class WakeupSettings implements Serializable {
 	
 	
 	public WakeupSettings(){
-		hour = 12;
+		hour = 19;
 		minute = 0;
 		fadein = false;
-		fadeintime = 15.0f;
+		fadeintime = 0.30f;
 		ownmusic = false;
 		active = false;
 		mon = false;

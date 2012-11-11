@@ -4,36 +4,36 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-
-    <ScrollView 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+    android:background="@raw/background_full" >
     
-    	<LinearLayout
-        	android:id="@+id/linearlayout_wakeup"
+    <ScrollView 
+       	android:layout_width="fill_parent"
+       	android:layout_height="fill_parent">
+    
+        <LinearLayout
+        		android:orientation="vertical"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content" >
+    	    
+    		<LinearLayout
+        		android:id="@+id/linearlayout_wakeup"
+        		android:orientation="vertical"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content" >
+       
+    		</LinearLayout>
+     	
+     		<LinearLayout
+        	android:id="@+id/linearlayout_sleep"
         	android:orientation="vertical"
         	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:background="@raw/backgroundteststars720x960" >
-       
-    	</LinearLayout>
-    </ScrollView>
-     	
-    <ScrollView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-     	
-     	<LinearLayout
-        android:id="@+id/linearlayout_sleep"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@raw/tansitiontest720x600" >
+        	android:layout_height="wrap_content" >
         
-    	</LinearLayout>
+    		</LinearLayout>
+     	     	
+     	</LinearLayout>
      </ScrollView>
+    	
 </LinearLayout>
 
 

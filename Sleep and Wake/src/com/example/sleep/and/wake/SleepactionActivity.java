@@ -30,7 +30,6 @@ public class SleepactionActivity extends Activity {
 	float actual_fadeoutvolume = 1.0f;
 	float actual_displaybrightness = 1.0f;
 	MusicFadeOutTask taskmusic;
-	DisplayFadeOutTask taskdisplay;
 	public MediaPlayer player = null;
 	WindowManager.LayoutParams displaylayout;
 	private Handler handler;
@@ -42,11 +41,12 @@ public class SleepactionActivity extends Activity {
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        
+	        //set screent to fullscreen
 	        requestWindowFeature(Window.FEATURE_NO_TITLE);
 	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        setContentView(R.layout.activity_sleepaction);
 	              
-	        
+	        //get the intent with the settings
 	        Intent intent = getIntent();
 	        mywakeup = (SleepSettings)intent.getSerializableExtra("MAIN_MESSAGE_WAKE");
 	        //set variables needed by the player-thread
@@ -62,13 +62,13 @@ public class SleepactionActivity extends Activity {
 	        	taskmusic.execute();
 	        }
 	        if(display_fadeout){
+	        	//get a WindowManager for the display fadeout function
 	        	getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD, WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 	        	displaylayout = getWindow().getAttributes();
 	        	displaylayout.screenBrightness = actual_displaybrightness;
  				getWindow().setAttributes(displaylayout);
- 				
- 				//taskdisplay = new DisplayFadeOutTask();
-	        	//taskdisplay.execute();
+ 				 				
+ 				//get and start the handler which starts the display fadeout
 	        	handler = new Handler();	
 	        	loopdisplay(linearlayout_sleepaction);
 	        	
@@ -80,8 +80,9 @@ public class SleepactionActivity extends Activity {
 		Runnable runnable = new Runnable(){
 			public void run(){
 				float tmpdisplaystep = 0.0f;
+				//calculate in how many steps the display shall fade out (calculated in relation to 100ms sleep time)
 		    	tmpdisplaystep = (100.0f) / (playtime*60000.0f);
-				//while(actual_displaybrightness >= 0.0f && stop==true ){
+				
 				for(int i=0;i<playtime*600;i++){
 		    		try{
 						Thread.sleep(100);
@@ -89,12 +90,12 @@ public class SleepactionActivity extends Activity {
 						e.printStackTrace();
 					}
 					if(actual_displaybrightness - tmpdisplaystep >= 0.01f && stop==false){
+						//reduce display brightness
 						actual_displaybrightness = actual_displaybrightness - tmpdisplaystep;
 					}else
 						finish();
         			handler.post(new Runnable(){
         				public void run(){
-        					//linearlayout_sleepaction.setBackgroundColor(getResources().getColor(R.color.green));
         					displaylayout = mainactivity.getWindow().getAttributes();
         					displaylayout.screenBrightness = actual_displaybrightness;
         					mainactivity.getWindow().setAttributes(displaylayout);
@@ -110,11 +111,13 @@ public class SleepactionActivity extends Activity {
 	 private class MusicFadeOutTask extends AsyncTask <Long,Void,Float> {
 	        protected Float doInBackground(Long... time) {
 	        	try {
+	        		//create and start the player
 	        		player = MediaPlayer.create(getApplicationContext(), R.raw.sample); 
 		        	player.setLooping(true);
 		        	player.setVolume(actual_fadeoutvolume, actual_fadeoutvolume);
 	        		player.start();
-	        		float tmpvolumestep = 0.0f;;
+	        		float tmpvolumestep = 0.0f;
+	        		//calculate same steps as for the display fadeout
 	        		tmpvolumestep = (100.0f) / (playtime*60000.0f);
 	        			while(actual_fadeoutvolume >= 0.0f && !(taskmusic.isCancelled()) ){
 	        				Thread.sleep(100);
@@ -134,36 +137,7 @@ public class SleepactionActivity extends Activity {
 	        		player.release();
 	        		player = null;
 	        		actual_fadeoutvolume = 1.0f;
-	        		
 	        	}
-	        }
-	    }
-
-	 private class DisplayFadeOutTask extends AsyncTask <Long,Void,Float> {
-	        protected Float doInBackground(Long... time) {
-	        	try {
-	        		float tmpdisplaystep = 0.0f;
-	        		tmpdisplaystep = (100.0f) / (playtime*60000.0f);
-     				while(actual_displaybrightness >= 0.0f && !(taskdisplay.isCancelled()) ){
-	        			Thread.sleep(100);
-	        			actual_displaybrightness = actual_displaybrightness - tmpdisplaystep;
-	        			displaylayout = mainactivity.getWindow().getAttributes();
-    					displaylayout.screenBrightness = actual_displaybrightness;
-    					mainactivity.getWindow().setAttributes(displaylayout);
-	        			
-	        		}
-	        		
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        		return (actual_displaybrightness);
-	        }
-
-	        protected void onPostExecute(Float volume) {
-//	        	if(actual_displaybrightness <= 0.0f){
-//	        		actual_displaybrightness = -1.0f;	
-//	        	}
 	        }
 	    }
 	
@@ -178,8 +152,6 @@ public class SleepactionActivity extends Activity {
 			player.release();
 			player = null;	
 		}
-//		if(display_fadeout)
-//			taskdisplay.cancel(true);
 	}
 	
 	public void onResume(){
@@ -191,7 +163,6 @@ public class SleepactionActivity extends Activity {
 	
 	public void onStop(){
 		super.onStop();
-		
 	}
 
 	 @Override
