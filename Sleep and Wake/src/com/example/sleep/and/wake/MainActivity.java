@@ -2,6 +2,8 @@ package com.example.sleep.and.wake;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
+
 
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
@@ -11,7 +13,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.SystemClock;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 public class MainActivity extends Activity {
 	int requestCodeWakeup = 0;
@@ -35,7 +41,8 @@ public class MainActivity extends Activity {
 	boolean playerisready = true;
 	boolean firsttime=true;
 	int globalidcounter = 0;
-	
+	List<WakeupSettings> wakeUpList;
+	List<SleepSettings> sleepList;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,9 +57,77 @@ public class MainActivity extends Activity {
         linearlayout_sleep = (LinearLayout) findViewById(R.id.linearlayout_sleep);
         linearlayout_main = (LinearLayout) findViewById(R.id.linearlayout_main);
                
-        //create to default(emtpy) panels
+        
+        /****Get the global ID******/
+        
+        globalidcounter = LoadPreferences("GlobalID");
+        Log.d("MainActivity GlobalID", Integer.toString(globalidcounter));
+        
+       
+        /************** Wakeup Panels**************/
+        
+        // Create Database table for Wakeupsettings Objects
+        
+        WakeUpDatabaseHandler wakeDB = new WakeUpDatabaseHandler(this);
+               
+        WakeupSettings wakeTemp = null;
+        
+        
+        // get number of wakeup settings
+        
+        int numOfWakeUpSettings = 0;
+        
+        numOfWakeUpSettings= wakeDB.getSettingsCount();
+        
+        Log.d("MainActivity NumOfWakeUps", Integer.toString(numOfWakeUpSettings));
+        
+        if(numOfWakeUpSettings >0){
+        	// get all settings
+        	wakeUpList=  wakeDB.getAllSettings();
+        
+      
+        	for(int i=0;i<numOfWakeUpSettings;i++){
+        		wakeTemp = wakeUpList.get(i);
+        		// create wakeup panels with wakeupsettings objects
+    			createNewWakeupPanel(wakeTemp);
+        	}
+        }
+        
+        //create to default(empty) panels
         createNewWakeupPanel();
+        
+        /**************** Sleep Panels******************/
+
+        // create Database table for Sleepsettings objects 
+        
+        SleepDatabaseHandler sleepDB = new SleepDatabaseHandler(this);
+      
+       
+        // get number of sleep settings
+        int numOfSleepSettings = 0;
+       
+        numOfSleepSettings = sleepDB.getSettingsCount();
+        
+        SleepSettings sleepTemp = null;
+        Log.d("MainActivity NumOfSleeps", Integer.toString(numOfSleepSettings));
+        
+        if(numOfSleepSettings >0){
+        	// get all settings
+        	sleepList=  sleepDB.getAllSettings();
+        
+      
+        	for(int j=0;j<numOfSleepSettings;j++){
+        		sleepTemp = sleepList.get(j);
+        		// create wakeup panels with wakeupsettings objects
+    			createNewSleepPanel(sleepTemp);
+        	}
+        }
         createNewSleepPanel();
+        
+        
+        
+        
+        
         
     }
     
@@ -77,8 +152,14 @@ public class MainActivity extends Activity {
     		WakeupSettings mywakeupsettings;
     		WakeupPanel mywake;
     		SleepSettings mysleepsettings;
+    		WakeUpDatabaseHandler wakeDB = new WakeUpDatabaseHandler(this);
+    		SleepDatabaseHandler sleepDB = new SleepDatabaseHandler(this);
     	if(resultCode == 1){//WakeupControlpanel was saved by user and is now active & its a new created panel
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
+    		
+    		// add wakeupsettting object to database 
+    		wakeDB.addSetting(mywakeupsettings);
+    		
     		mywakeup.settings = mywakeupsettings;
     		mywakeup.showSettings();
     		mywakeup.setActive();
@@ -88,12 +169,17 @@ public class MainActivity extends Activity {
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mywakeup.settings = mywakeupsettings;
     		mywakeup.showSettings();
+    		// update database table
+    		wakeDB.updateSetting(mywakeupsettings);
     		setContentView(linearlayout_main);
     	}
     	if(resultCode == 3){
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mywakeup.settings = mywakeupsettings;
+
     		if(mywakeup.settings.active){
+        		// remove this object from database
+        		wakeDB.deleteSetting(mywakeupsettings);
     			mywakeup.remove(linearlayout_wake);
     			setContentView(linearlayout_main);
     		}
@@ -101,6 +187,8 @@ public class MainActivity extends Activity {
     	if(resultCode == 4){//SleepControlpanel was saved by user and is now active & its a new created panel
     		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mysleep.settings = mysleepsettings;
+    		// add sleep setting to database
+    		sleepDB.addSetting(mysleepsettings);
     		mysleep.showSettings();
     		mysleep.setActive();
     		createNewSleepPanel();
@@ -108,6 +196,8 @@ public class MainActivity extends Activity {
     	if(resultCode == 5){//panel was already there but has been changed
     		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mysleep.settings = mysleepsettings;
+    		// update database table
+    		sleepDB.updateSetting(mysleepsettings);
     		mysleep.showSettings();
     		setContentView(linearlayout_main);
     	}
@@ -115,6 +205,8 @@ public class MainActivity extends Activity {
     		mysleepsettings = (SleepSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mysleep.settings = mysleepsettings;
     		if(mysleep.settings.active){
+    			// remove from database
+    			sleepDB.deleteSetting(mysleepsettings);
     			SleepPanel tmp;
     			tmp = mysleep;
     			tmp.remove(linearlayout_sleep);
@@ -132,9 +224,29 @@ public class MainActivity extends Activity {
         Context context = this.getApplicationContext();
         initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
         //ToDo: add a sleep panel
+        // save global ID
+        
+        SavePreferences("GlobalID", globalidcounter);
         
         setContentView(linearlayout_main);
     }
+    
+    // Create new wakeup panel with wakeupsettings object.
+    public void createNewWakeupPanel(WakeupSettings wake){
+    	/***initialize the first wakeup and sleep panel***/
+        WakeupPanel initialwakeup = new WakeupPanel(this,this,wake.getID());
+        initialwakeup.settings = wake;
+        //globalidcounter++; // we don't need to update the global id (it was read from database)
+        initialwakeup.activate(linearlayout_wake);
+        Context context = this.getApplicationContext();
+        initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
+        //ToDo: add a sleep panel
+        
+        setContentView(linearlayout_main);
+        initialwakeup.showSettings();
+        initialwakeup.setActive();
+    }
+    
     
     public void createNewSleepPanel(){
     	/***initialize the first wakeup and sleep panel***/
@@ -142,9 +254,25 @@ public class MainActivity extends Activity {
         globalidcounter++;
         initialsleep.activate(linearlayout_sleep);
         //ToDo: add a sleep panel
+        // save global ID
         
+        SavePreferences("GlobalID", globalidcounter);
         setContentView(linearlayout_main);
     }
+    // Create new Sleep panel with sleepsetting
+    public void createNewSleepPanel(SleepSettings sleep){
+    	/***initialize the first wakeup and sleep panel***/
+        final SleepPanel initialsleep = new SleepPanel(this,this,sleep.getID());
+        initialsleep.settings = sleep;
+        //globalidcounter++;
+        initialsleep.activate(linearlayout_sleep);
+        //ToDo: add a sleep panel
+        
+        setContentView(linearlayout_main);
+        initialsleep.showSettings();
+        initialsleep.setActive();
+    }
+    
     
     public void wakeupSettings(WakeupPanel tmpp){
     	mywakeup = tmpp;
@@ -192,6 +320,24 @@ public class MainActivity extends Activity {
 	      Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
 	     }
 	 }
+	 
+	 
+	 
+	private void SavePreferences(String key, int value){
+		    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+		    SharedPreferences.Editor editor = sharedPreferences.edit();
+		    editor.putInt(key, value);    
+		    editor.commit();
+		   }
+		  
+	private int LoadPreferences(String key){
+		 
+		    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+		    int globalID  = sharedPreferences.getInt(key, 0);
+		  
+		    return globalID;
+}
     
     
 }

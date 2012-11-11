@@ -39,6 +39,7 @@ public class WakeupPanel extends ControlPanel {
 		for(int i=0;i<7;i++)
 			wakeupalarmmanager[i] = null;
 		id = myid;
+		settings.id =myid;
 		initializeButtons(context);
 		setInactive(linear_layout);
 	}

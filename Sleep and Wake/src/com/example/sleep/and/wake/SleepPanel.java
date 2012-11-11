@@ -27,6 +27,7 @@ public class SleepPanel extends ControlPanel {
 		initializeButtons(context);
 		setInactive(linear_layout);
 		id = myid;
+		settings.id = myid;
 	}
 	
 	public void initializeButtons(Context context){
