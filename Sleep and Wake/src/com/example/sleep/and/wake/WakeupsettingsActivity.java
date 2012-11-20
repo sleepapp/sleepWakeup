@@ -9,6 +9,7 @@ import com.example.sleep.and.wake.R.color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 public class WakeupsettingsActivity extends Activity {
@@ -33,6 +35,7 @@ public class WakeupsettingsActivity extends Activity {
 	CheckBox checkbox_weeklyrepetition;
 	TimePicker timepicker_wakeuptime;
 	Boolean nodaypicked = true;
+
 	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -140,7 +143,7 @@ public class WakeupsettingsActivity extends Activity {
 	         		   setinactive(button_sun);
 	         	   }else{
 	         		  mywakeup.sun = true;
-	         		  setactive(button_sun);
+	         		  setactive(button_sun);	         		 
 	         	   }               
 	            }  
 	        });
@@ -225,10 +228,11 @@ public class WakeupsettingsActivity extends Activity {
 		 	
 		 	
 		 	//if the user didnt pick any day, the actual day is taken
-		 	if(mywakeup.sun || mywakeup.mon || mywakeup.tue || mywakeup.wed || mywakeup.thu || mywakeup.fri || mywakeup.sat)
+		 	if(mywakeup.sun | mywakeup.mon | mywakeup.tue | mywakeup.wed | mywakeup.thu | mywakeup.fri | mywakeup.sat)
 		 		nodaypicked = false;
+		 			 	
 		 	
-		 	if(nodaypicked = true){
+		 	if(nodaypicked == true){
 		 		Calendar calNow = Calendar.getInstance();
 		 		if(calNow.get(Calendar.DAY_OF_WEEK) == 1)
 		 			mywakeup.sun = true;

@@ -40,10 +40,9 @@ public class SleepactionActivity extends Activity {
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        
+	        Log.d("SleepactionActivity", "Call onCreate");
 	        //set screent to fullscreen
 	        requestWindowFeature(Window.FEATURE_NO_TITLE);
-	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        setContentView(R.layout.activity_sleepaction);
 	              
 	        //get the intent with the settings
@@ -76,6 +75,17 @@ public class SleepactionActivity extends Activity {
 	     		       
 	}
 	
+	
+public void onAttachedToWindow() {
+    //make the activity show even the screen is locked.
+    Window window = getWindow();
+    
+    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            + WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+            + WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    
+}
+	
 	public void loopdisplay(final View view){
 		Runnable runnable = new Runnable(){
 			public void run(){
@@ -89,11 +99,12 @@ public class SleepactionActivity extends Activity {
 					} catch(InterruptedException e){
 						e.printStackTrace();
 					}
-					if(actual_displaybrightness - tmpdisplaystep >= 0.01f && stop==false){
+					if(actual_displaybrightness - tmpdisplaystep > 0.00f && stop==false){
 						//reduce display brightness
 						actual_displaybrightness = actual_displaybrightness - tmpdisplaystep;
-					}else
-						finish();
+						
+					}
+						
         			handler.post(new Runnable(){
         				public void run(){
         					displaylayout = mainactivity.getWindow().getAttributes();
@@ -138,11 +149,13 @@ public class SleepactionActivity extends Activity {
 	        		player = null;
 	        		actual_fadeoutvolume = 1.0f;
 	        	}
+	        	finish();
 	        }
 	    }
 	
 	public void onPause(){
 		super.onPause();
+		Log.d("SleepactionActivity", "Call onPause"); 
 		//save where the track actually is and at which volume level
 		//release the player
 		stop = true;
@@ -156,6 +169,7 @@ public class SleepactionActivity extends Activity {
 	
 	public void onResume(){
 		super.onResume();
+		Log.d("SleepactionActivity", "Call onResume");
 		stop = false;
 		actual_fadeoutvolume = 1.0f;
 		actual_displaybrightness = 1.0f;	
@@ -163,6 +177,8 @@ public class SleepactionActivity extends Activity {
 	
 	public void onStop(){
 		super.onStop();
+		finish();
+		Log.d("SleepactionActivity", "Call onStop");
 	}
 
 	 @Override

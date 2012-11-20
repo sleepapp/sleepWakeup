@@ -179,6 +179,7 @@ public class MainActivity extends Activity {
 
     		if(mywakeup.settings.active){
         		// remove this object from database
+    			stopwakeup(mywakeup);
         		wakeDB.deleteSetting(mywakeupsettings);
     			mywakeup.remove(linearlayout_wake);
     			setContentView(linearlayout_main);

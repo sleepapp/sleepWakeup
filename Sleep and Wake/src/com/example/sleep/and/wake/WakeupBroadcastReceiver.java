@@ -9,35 +9,45 @@ import java.io.Serializable;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlarmManager;
+import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
 
 public class WakeupBroadcastReceiver extends BroadcastReceiver {
  
  final public static String WAKEUP = "wakeup";
- 
+
 // @Override
  public void onReceive(Context context, Intent intent) {
-   PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
+   //PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+         //PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
+         //PowerManager.WakeLock wl=pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK, "My_App");
+               
          //Acquire the lock
-         wl.acquire();
+         //wl.acquire();
          	//get the intent with the settings and start the wakeup activity
-           	WakeupSettings mywakeup;
-        	mywakeup = (WakeupSettings)intent.getSerializableExtra(WAKEUP);
-        	Intent myintent = new Intent(context, WakeupactionActivity.class);
-        	myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //this flag is needed to start a task out of an onReceive function
-        	myintent.putExtra("FROM_BROADCAST", mywakeup);
-        	context.startActivity(myintent);
-                	 
+   
+	 		WakeLocker.acquire(context);
+	 
+       		WakeupSettings mywakeup;
+           	mywakeup = (WakeupSettings)intent.getSerializableExtra(WAKEUP);
+           	Intent myintent = new Intent(context, WakeupactionActivity.class);
+           	myintent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+          	myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //this flag is needed to start a task out of an onReceive function
+           	myintent.putExtra("FROM_BROADCAST", mywakeup);
+           	context.startActivity(myintent);
+                 	 
          //Release the lock
-         wl.release();
+         //wl.release();
+           	//WakeLocker.release();
  }
  
 
@@ -89,7 +99,7 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  
     public void CancelAlarm(Context context,WakeupPanel mywakeup)
     {
-    	
+    	//cancel the alarmmanager AND!!! the pendingintent (else the pendingintent will be stored and new configurations would not be taken into account)
         for(int i=0;i<7;i++){
         	if(mywakeup.wakeupalarmmanager[i] != null){
         		mywakeup.wakeupalarmmanager[i].cancel(mywakeup.pendingintent);
@@ -97,7 +107,7 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
         		mywakeup.wakeupalarmmanager[i] = null;
         	}
         }
-        //cancel the alarmmanager AND!!! the pendingintent (else the pendingintent will be stored and new configurations would not be taken into account)
+        
         mywakeup.wakeupintent = null;
         mywakeup.pendingintent = null;
                 

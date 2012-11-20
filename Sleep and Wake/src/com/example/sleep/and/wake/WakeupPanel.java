@@ -49,13 +49,12 @@ public class WakeupPanel extends ControlPanel {
 		button_right_active = new Button(context);
 		button_left_shade = new Button(context);
 		button_right_shade = new Button(context);
-
 						
 		button_left_active.setBackgroundResource(R.drawable.buttontestwake120x120);
 		button_right_active.setBackgroundResource(R.drawable.buttontestwake600x120);
 		button_left_shade.setBackgroundResource(R.drawable.buttontestwakeshade120x120);
 		button_right_shade.setBackgroundResource(R.drawable.buttontestwakeshade600x120);
-	
+		
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
 				wakeup();

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.Service;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,17 +38,16 @@ public class WakeupactionActivity extends Activity {
 	MusicFadeInTask taskfadeinmusic;
 	MusicTask taskmusic;
 	public MediaPlayer player = null;
-
+	public Boolean off = false;
 
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
+	        Log.d("WakeupactionActivity", "Call onCreate");
 	        
-	        requestWindowFeature(Window.FEATURE_NO_TITLE);
-	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
 	        setContentView(R.layout.activity_wakeupaction);
-	              
-	        
+        
 	        Intent intent = getIntent();
 	        mywakeup = (WakeupSettings)intent.getSerializableExtra("FROM_BROADCAST");
 	        //set variables needed by the player-thread
@@ -66,6 +67,17 @@ public class WakeupactionActivity extends Activity {
 	     		       
 	}
 			
+	public void onAttachedToWindow() {
+	    //make the activity show even the screen is locked.
+	    Window window = getWindow();
+	    
+	    window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+	            + WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+	            + WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+	            + WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+	            + WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+	
 	public void stopalarm(View view){
 		if(sound_fadein)
 			taskfadeinmusic.cancel(true);
@@ -77,6 +89,7 @@ public class WakeupactionActivity extends Activity {
 			player.release();
 			player = null;
 		}
+		
 		finish();
 	}
 	
@@ -149,27 +162,45 @@ public class WakeupactionActivity extends Activity {
 	public void onPause(){
 		super.onPause();
 		//cancel the task and release the player
-		if(sound_fadein)
-			taskfadeinmusic.cancel(true);
-		else
-			taskmusic.cancel(true);
+		if(off){
+			if(sound_fadein)
+				taskfadeinmusic.cancel(true);
+			else
+				taskmusic.cancel(true);
 		
-		if(player != null){
-			player.stop();
-			player.release();
-			player = null;
-		}
+			if(player != null){
+				player.stop();
+				player.release();
+				player = null;
+			}
 		finish();
-
+		}
 	}
 	
 	public void onResume(){
 		super.onResume();
+		Log.d("WakeupactionActivity", "Call onResume"); 
 	}
 	
 	public void onStop(){
 		super.onStop();
+		if(off){
+			if(sound_fadein)
+				taskfadeinmusic.cancel(true);
+			else
+				taskmusic.cancel(true);
 		
+			if(player != null){
+				player.stop();
+				player.release();
+				player = null;
+			}
+			WakeLocker.release();
+		}
+		else{
+			off = true;
+		}
+		Log.d("WakeupactionActivity", "Call onStop");
 	}
 
 	 @Override

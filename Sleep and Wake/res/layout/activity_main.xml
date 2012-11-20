@@ -12,13 +12,13 @@
     
         <LinearLayout
         		android:orientation="vertical"
-        		android:layout_width="wrap_content"
+        		android:layout_width="fill_parent"
         		android:layout_height="wrap_content" >
     	    
     		<LinearLayout
         		android:id="@+id/linearlayout_wakeup"
         		android:orientation="vertical"
-        		android:layout_width="wrap_content"
+        		android:layout_width="fill_parent"
         		android:layout_height="wrap_content" >
        
     		</LinearLayout>
@@ -26,7 +26,7 @@
      		<LinearLayout
         	android:id="@+id/linearlayout_sleep"
         	android:orientation="vertical"
-        	android:layout_width="wrap_content"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content" >
         
     		</LinearLayout>
