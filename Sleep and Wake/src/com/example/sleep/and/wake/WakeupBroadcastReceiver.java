@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
@@ -58,20 +59,34 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
 	 Calendar calNow = Calendar.getInstance();
 	 Calendar calSet = (Calendar) calNow.clone();
 	 		 	
-	 	if(mywakeup.settings.sun)
+	 	if(mywakeup.settings.sun){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,1);
-	 	if(mywakeup.settings.mon)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.mon){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,2);
-	 	if(mywakeup.settings.tue)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.tue){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,3);
-	 	if(mywakeup.settings.wed)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.wed){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,4);
-	 	if(mywakeup.settings.thu)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.thu){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,5);
-	 	if(mywakeup.settings.fri)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.fri){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,6);
-	 	if(mywakeup.settings.sat)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.sat){
 	 		setAlarmRepeat(context,mywakeup,calNow,calSet,7);
+	 		calSet = (Calendar) calNow.clone();
+	 	}
     }
 //sets the alarm if repetition is off, but still more days can be selected
  public void setOnetimeTimer(Context context, WakeupPanel mywakeup)
@@ -80,20 +95,34 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
 	 	Calendar calNow = Calendar.getInstance();
 	 	Calendar calSet = (Calendar) calNow.clone();
 	 		 	
-	 	if(mywakeup.settings.sun)
+	 	if(mywakeup.settings.sun){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,1);
-	 	if(mywakeup.settings.mon)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.mon){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,2);
-	 	if(mywakeup.settings.tue)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.tue){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,3);
-	 	if(mywakeup.settings.wed)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.wed){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,4);
-	 	if(mywakeup.settings.thu)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.thu){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,5);
-	 	if(mywakeup.settings.fri)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.fri){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,6);
-	 	if(mywakeup.settings.sat)
+	 		calSet = (Calendar) calNow.clone();
+	 	}
+	 	if(mywakeup.settings.sat){
 	 		setAlarmOnetime(context,mywakeup,calNow,calSet,7);
+	 		calSet = (Calendar) calNow.clone();
+	 	}
 	 	
  	}
  
@@ -103,11 +132,10 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
         for(int i=0;i<7;i++){
         	if(mywakeup.wakeupalarmmanager[i] != null){
         		mywakeup.wakeupalarmmanager[i].cancel(mywakeup.pendingintent);
-                mywakeup.pendingintent.cancel();
-        		mywakeup.wakeupalarmmanager[i] = null;
+                mywakeup.wakeupalarmmanager[i] = null;
         	}
         }
-        
+        mywakeup.pendingintent.cancel();
         mywakeup.wakeupintent = null;
         mywakeup.pendingintent = null;
                 
@@ -126,12 +154,14 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		if(calSet.compareTo(calNow) > 0){
         //Today Set time not yet passed
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" first if" , Toast.LENGTH_LONG).show();
+ 			Toast.makeText(context, String.valueOf(timediff)+"repeat first if" , Toast.LENGTH_LONG).show();
+ 			Log.d("WakeupBroadcast", String.valueOf(timediff)+"repeat first if");
  		}else{
         //Today Set time passed, count to next week
  			calSet.add(Calendar.DATE, 7);//here 7 has to added because its then the next week
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" else" , Toast.LENGTH_LONG).show();
+ 			Toast.makeText(context, String.valueOf(timediff)+"repeat else" , Toast.LENGTH_LONG).show();
+ 			Log.d("WakeupBroadcast", String.valueOf(timediff)+"repeat else");
  		}
  		
  		//each panel has its own intent, pending intent and alarm manager
@@ -154,12 +184,14 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		if(calSet.compareTo(calNow) > 0){
         //Today Set time not yet passed
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" first if" , Toast.LENGTH_LONG).show();
+ 			Toast.makeText(context, String.valueOf(timediff)+" norepeat first if" , Toast.LENGTH_LONG).show();
+ 			Log.d("WakeupBroadcast", "Day:" +String.valueOf(day) + "  " + String.valueOf(timediff)+" norepeat first if");
  		}else{
         //Today Set time passed, count to next week
  			calSet.add(Calendar.DATE, 7);//here 7 has to added because its then the next week
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" else" , Toast.LENGTH_LONG).show();
+ 			Toast.makeText(context, String.valueOf(timediff)+" norepeat else" , Toast.LENGTH_LONG).show();
+ 			Log.d("WakeupBroadcast", "Day:" +String.valueOf(day) + "  " + String.valueOf(timediff)+" norepeat else");
  		}
      		
  		mywakeup.wakeupalarmmanager[day-1] = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
