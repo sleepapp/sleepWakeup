@@ -8,6 +8,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,9 +24,6 @@ public class WakeupPanel extends ControlPanel {
 	public MainActivity mainactivity;
 	WakeupSettings settings;
 	WakeupBroadcastReceiver wakeupreceiver;
-	PendingIntent pendingintent;
-	Intent wakeupintent;
-	AlarmManager wakeupalarmmanager[] = new AlarmManager[7];
 	int id;
 	int requestCode;
 		
@@ -34,10 +32,6 @@ public class WakeupPanel extends ControlPanel {
 		settings = new WakeupSettings();
 		wakeupreceiver = new WakeupBroadcastReceiver();
 		mainactivity = mymain;
-		pendingintent = null;
-		wakeupintent = null;
-		for(int i=0;i<7;i++)
-			wakeupalarmmanager[i] = null;
 		id = myid;
 		settings.id =myid;
 		initializeButtons(context);
@@ -49,7 +43,8 @@ public class WakeupPanel extends ControlPanel {
 		button_right_active = new Button(context);
 		button_left_shade = new Button(context);
 		button_right_shade = new Button(context);
-						
+				
+		
 		button_left_active.setBackgroundResource(R.drawable.buttontestwake120x120);
 		button_right_active.setBackgroundResource(R.drawable.buttontestwake600x120);
 		button_left_shade.setBackgroundResource(R.drawable.buttontestwakeshade120x120);
@@ -70,17 +65,36 @@ public class WakeupPanel extends ControlPanel {
 		button_left_active.setOnClickListener(new OnClickListener() {  
 	   	    public void onClick(View view) { 
 	   	    	if(settings.alarmstate == false){//if off start alarm, if on stop it
-	   	    		startwakeup();
 	   	    		settings.alarmstate = true;
+	   	    		setAlarmButton();
+	   	    		startwakeup();
 	   	    	}
 	   	    	else{
 	   	    		settings.alarmstate = false;
+	   	    		setAlarmButton();
 	   	    		stopwakeup();	   	    		
 	   	    	}
 	   	    }
 		});
 		
 				
+	}
+			
+	public void setAlarmButton(){
+		if(settings.alarmstate == true){//if off start alarm, if on stop it
+	    		linear_layout.removeView(button_left_active);
+	    		linear_layout.removeView(button_right_active);
+	    		button_left_active.setBackgroundResource(R.drawable.buttontestwake120x120on);
+	    		linear_layout.addView(button_left_active);
+	    		linear_layout.addView(button_right_active);
+	    	}
+	    	else{
+	    		linear_layout.removeView(button_left_active);
+	    		linear_layout.removeView(button_right_active);
+	    		button_left_active.setBackgroundResource(R.drawable.buttontestwake120x120);
+	    		linear_layout.addView(button_left_active);
+	    		linear_layout.addView(button_right_active);
+	    	}
 	}
 	
 	public void wakeup(){
@@ -97,8 +111,11 @@ public class WakeupPanel extends ControlPanel {
 	
 	public void showSettings(){
 		String tmpstring = "";
-		tmpstring += "Waketime: " + settings.hour + "." + settings.minute +"\n";
-		
+		if(settings.minute<10)
+			tmpstring += "Waketime: " + settings.hour + ".0" + settings.minute +"\n";
+		else
+			tmpstring += "Waketime: " + settings.hour + "." + settings.minute +"\n";
+			
 		if(settings.fadein)
 			tmpstring += "Fadein: "+Float.toString(settings.fadeintime)+" Minutes";
 		else

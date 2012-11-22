@@ -169,6 +169,9 @@ public class MainActivity extends Activity {
     		mywakeupsettings = (WakeupSettings)data.getExtras().getSerializable("SETTINGS_MESSAGE_WAKE");
     		mywakeup.settings = mywakeupsettings;
     		mywakeup.showSettings();
+    		mywakeup.settings.setIsAlarm(false);
+    		mywakeup.setAlarmButton();
+    		stopwakeup(mywakeup);
     		// update database table
     		wakeDB.updateSetting(mywakeupsettings);
     		setContentView(linearlayout_main);
@@ -223,8 +226,7 @@ public class MainActivity extends Activity {
         globalidcounter+=7;
         initialwakeup.activate(linearlayout_wake);
         Context context = this.getApplicationContext();
-        initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
-        //ToDo: add a sleep panel
+                
         // save global ID
         
         SavePreferences("GlobalID", globalidcounter);
@@ -240,12 +242,12 @@ public class MainActivity extends Activity {
         //globalidcounter++; // we don't need to update the global id (it was read from database)
         initialwakeup.activate(linearlayout_wake);
         Context context = this.getApplicationContext();
-        initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
-        //ToDo: add a sleep panel
+        
         
         setContentView(linearlayout_main);
         initialwakeup.showSettings();
         initialwakeup.setActive();
+        initialwakeup.setAlarmButton();
     }
     
     

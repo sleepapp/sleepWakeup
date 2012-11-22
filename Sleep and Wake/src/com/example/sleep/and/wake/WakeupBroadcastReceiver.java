@@ -28,14 +28,10 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
 
 // @Override
  public void onReceive(Context context, Intent intent) {
-   //PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-         //PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
-         //PowerManager.WakeLock wl=pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK, "My_App");
-               
-         //Acquire the lock
-         //wl.acquire();
-         	//get the intent with the settings and start the wakeup activity
    
+         
+         	//get the intent with the settings and start the wakeup activity
+	 
 	 		WakeLocker.acquire(context);
 	 
        		WakeupSettings mywakeup;
@@ -46,9 +42,7 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
            	myintent.putExtra("FROM_BROADCAST", mywakeup);
            	context.startActivity(myintent);
                  	 
-         //Release the lock
-         //wl.release();
-           	//WakeLocker.release();
+           	//The lock is released when the alarm is turned off
  }
  
 
@@ -129,17 +123,18 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
     public void CancelAlarm(Context context,WakeupPanel mywakeup)
     {
     	//cancel the alarmmanager AND!!! the pendingintent (else the pendingintent will be stored and new configurations would not be taken into account)
-        for(int i=0;i<7;i++){
-        	if(mywakeup.wakeupalarmmanager[i] != null){
-        		mywakeup.wakeupalarmmanager[i].cancel(mywakeup.pendingintent);
-        		mywakeup.pendingintent.cancel();
-                mywakeup.wakeupalarmmanager[i] = null;
-        	}
-        }
-        
-        mywakeup.wakeupintent = null;
-        mywakeup.pendingintent = null;
-                
+    	AlarmManager myalarmmanager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+    	Intent myintent = new Intent(context, WakeupBroadcastReceiver.class);
+    	PendingIntent mypendingintent ;
+    	
+    	for(int i=0;i<7;i++){
+    		mypendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(i), myintent, 0);
+    		myalarmmanager.cancel(mypendingintent);
+    		mypendingintent.cancel();
+    		mypendingintent = null;
+    		Log.d("WakeupBroadcast", "Day canceled: "+String.valueOf(i));
+    	}
+    	
     }
  
   
@@ -165,13 +160,12 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  			Log.d("WakeupBroadcast", String.valueOf(timediff)+"repeat else");
  		}
  		
- 		//each panel has its own intent, pending intent and alarm manager
- 		mywakeup.wakeupalarmmanager[day-1] = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
- 		mywakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
- 		mywakeup.wakeupintent.putExtra(WAKEUP, mywakeup.settings);
- 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), mywakeup.wakeupintent, 0);
+ 		AlarmManager myalarmmanager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+ 		Intent myintent = new Intent(context, WakeupBroadcastReceiver.class);
+ 		myintent.putExtra(WAKEUP, mywakeup.settings);
+ 		PendingIntent mypendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), myintent, 0);
      		
- 		mywakeup.wakeupalarmmanager[day-1].setRepeating(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, 604800000 , mywakeup.pendingintent);
+ 		myalarmmanager.setRepeating(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, 604800000 , mypendingintent);
     }
     
     public void setAlarmOnetime(Context context,WakeupPanel mywakeup,Calendar calNow,Calendar calSet,int day){
@@ -194,13 +188,14 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  			Toast.makeText(context, String.valueOf(timediff)+" norepeat else" , Toast.LENGTH_LONG).show();
  			Log.d("WakeupBroadcast", "Day:" +String.valueOf(day) + "  " + String.valueOf(timediff)+" norepeat else");
  		}
-     		
- 		mywakeup.wakeupalarmmanager[day-1] = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
- 		mywakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
- 		mywakeup.wakeupintent.putExtra(WAKEUP, mywakeup.settings);
- 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), mywakeup.wakeupintent, 0);
-    
- 		mywakeup.wakeupalarmmanager[day-1].set(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, mywakeup.pendingintent);
+     	
+ 		AlarmManager myalarmmanager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+ 		Intent myintent = new Intent(context, WakeupBroadcastReceiver.class);
+ 		myintent.putExtra(WAKEUP, mywakeup.settings);
+ 		PendingIntent mypendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), myintent, 0);
+ 		
+ 		myalarmmanager.set(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, mypendingintent);
+ 		 		
     }
     
 }
