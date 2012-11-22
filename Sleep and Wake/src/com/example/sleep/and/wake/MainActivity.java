@@ -220,7 +220,7 @@ public class MainActivity extends Activity {
     public void createNewWakeupPanel(){
     	/***initialize the first wakeup and sleep panel***/
         WakeupPanel initialwakeup = new WakeupPanel(this,this,globalidcounter);
-        globalidcounter++;
+        globalidcounter+=7;
         initialwakeup.activate(linearlayout_wake);
         Context context = this.getApplicationContext();
         initialwakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);

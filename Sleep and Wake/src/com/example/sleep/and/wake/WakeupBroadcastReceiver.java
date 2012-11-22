@@ -132,10 +132,11 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
         for(int i=0;i<7;i++){
         	if(mywakeup.wakeupalarmmanager[i] != null){
         		mywakeup.wakeupalarmmanager[i].cancel(mywakeup.pendingintent);
+        		mywakeup.pendingintent.cancel();
                 mywakeup.wakeupalarmmanager[i] = null;
         	}
         }
-        mywakeup.pendingintent.cancel();
+        
         mywakeup.wakeupintent = null;
         mywakeup.pendingintent = null;
                 
@@ -168,7 +169,7 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		mywakeup.wakeupalarmmanager[day-1] = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
  		mywakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
  		mywakeup.wakeupintent.putExtra(WAKEUP, mywakeup.settings);
- 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id, mywakeup.wakeupintent, 0);
+ 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), mywakeup.wakeupintent, 0);
      		
  		mywakeup.wakeupalarmmanager[day-1].setRepeating(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, 604800000 , mywakeup.pendingintent);
     }
@@ -197,7 +198,7 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		mywakeup.wakeupalarmmanager[day-1] = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
  		mywakeup.wakeupintent = new Intent(context, WakeupBroadcastReceiver.class);
  		mywakeup.wakeupintent.putExtra(WAKEUP, mywakeup.settings);
- 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id, mywakeup.wakeupintent, 0);
+ 		mywakeup.pendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), mywakeup.wakeupintent, 0);
     
  		mywakeup.wakeupalarmmanager[day-1].set(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, mywakeup.pendingintent);
     }
