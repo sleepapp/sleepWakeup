@@ -300,6 +300,9 @@ public class MainActivity extends Activity {
       
 	 public void startwakeup(WakeupPanel tmpp){
 		 mywakeup = tmpp;
+		// we need to update database here!
+		WakeUpDatabaseHandler wakeDB = new WakeUpDatabaseHandler(this);
+		wakeDB.updateSetting(mywakeup.settings);
 		 Context context = this.getApplicationContext();
 	     if(tmpp.wakeupreceiver != null){
 	    	 if(tmpp.settings.weeklyrepetition == true)
@@ -314,6 +317,10 @@ public class MainActivity extends Activity {
 	    
 	 public void stopwakeup(WakeupPanel tmpp){
 		 mywakeup = tmpp;
+		// we need to update database here!
+		WakeUpDatabaseHandler wakeDB = new WakeUpDatabaseHandler(this);
+		wakeDB.updateSetting(mywakeup.settings);
+		
 		 Context context = this.getApplicationContext();
 	     if(tmpp.wakeupreceiver != null){
 	    	 tmpp.wakeupreceiver.CancelAlarm(context,tmpp);
