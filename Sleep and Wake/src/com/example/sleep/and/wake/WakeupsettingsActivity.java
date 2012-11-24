@@ -158,7 +158,9 @@ public class WakeupsettingsActivity extends Activity {
         
 		timepicker_wakeuptime.setCurrentHour(mywakeup.hour);
 		timepicker_wakeuptime.setCurrentMinute(mywakeup.minute);
-        editfadeintime.setText(Float.toString(mywakeup.fadeintime));
+		int tmpfadeintime;
+		tmpfadeintime = (int)mywakeup.fadeintime;
+        editfadeintime.setText(Integer.toString(tmpfadeintime));
         
         if(mywakeup.mon == true)
         	setactive(button_mon);
@@ -211,8 +213,10 @@ public class WakeupsettingsActivity extends Activity {
 	
 	public void saveWakeupSettings(View view){
 		 	
-		 	mywakeup.fadeintime = Float.parseFloat(editfadeintime.getText().toString());
-					 	
+			int tmpfadeintime;
+			tmpfadeintime = Integer.parseInt(editfadeintime.getText().toString());
+		 	mywakeup.fadeintime = (float)tmpfadeintime;
+				 	
 		 	mywakeup.hour = timepicker_wakeuptime.getCurrentHour();
 		 	mywakeup.minute = timepicker_wakeuptime.getCurrentMinute();
 		 	
@@ -226,6 +230,8 @@ public class WakeupsettingsActivity extends Activity {
 		 	else if(rbfadeinoff.isChecked())
 		 		mywakeup.fadein = false;
 		 	
+		 	if(tmpfadeintime == 0)
+		 		mywakeup.fadein = false;
 		 	
 		 	//if the user didnt pick any day, the actual day is taken
 		 	if(mywakeup.sun | mywakeup.mon | mywakeup.tue | mywakeup.wed | mywakeup.thu | mywakeup.fri | mywakeup.sat)
