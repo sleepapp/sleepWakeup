@@ -51,14 +51,17 @@ public class SleepsettingsActivity extends Activity {
 	        	rbfadeoutdisplayon.setChecked(true);
 	        else
 	        	rbfadeoutdisplayoff.setChecked(true);
-	        
-	        editfadeouttime.setText(Float.toString(mywakeup.fadeouttime));
+	        	        
+	        int tmpfadeouttime;
+	        tmpfadeouttime = (int)mywakeup.fadeouttime;
+	        editfadeouttime.setText(Integer.toString(tmpfadeouttime));
 	                
 	 }
 	 
 	 public void saveWakeupSettings(View view){
-		 	
-		 	mywakeup.fadeouttime = Float.parseFloat(editfadeouttime.getText().toString());
+		 	int tmpfadeouttime;
+		 	tmpfadeouttime = Integer.parseInt(editfadeouttime.getText().toString());
+		 	mywakeup.fadeouttime = (float)tmpfadeouttime;
 		 			 	
 		 	if(rbfadeouton.isChecked())
 		 		mywakeup.fadeout = true;
@@ -70,6 +73,12 @@ public class SleepsettingsActivity extends Activity {
 		 	else
 		 		mywakeup.displayfadeout = false;
 		 
+		 	//if user selects 0 as time, the fadeout function has to be disabled
+		 	if(tmpfadeouttime == 0){
+		 		mywakeup.fadeout = false;
+		 		mywakeup.displayfadeout = false;
+		 	}
+		 	
 		 	if(mywakeup.active){
 		 		Intent intent = new Intent(this, MainActivity.class);
 		 		intent.putExtra("SETTINGS_MESSAGE_WAKE", mywakeup);

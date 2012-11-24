@@ -230,6 +230,7 @@ public class WakeupsettingsActivity extends Activity {
 		 	else if(rbfadeinoff.isChecked())
 		 		mywakeup.fadein = false;
 		 	
+		 	//if user selects 0 as time, the fadein function has to be disabled
 		 	if(tmpfadeintime == 0)
 		 		mywakeup.fadein = false;
 		 	
