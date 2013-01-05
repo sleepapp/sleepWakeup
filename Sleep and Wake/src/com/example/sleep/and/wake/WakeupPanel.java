@@ -8,6 +8,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,15 @@ public class WakeupPanel extends ControlPanel {
 		button_right_active.setBackgroundResource(R.drawable.buttontestwake600x120);
 		button_left_shade.setBackgroundResource(R.drawable.buttontestwakeshade120x120);
 		button_right_shade.setBackgroundResource(R.drawable.buttontestwakeshade600x120);
+		
+		String tmpstring = "";
+		
+		tmpstring += "tab to add new alarm clock";
+		
+		button_right_shade.setTextSize(12);
+		button_right_shade.setTextColor(Color.WHITE);
+		button_right_shade.setText(tmpstring);
+		
 		
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
@@ -110,18 +121,58 @@ public class WakeupPanel extends ControlPanel {
 	}
 	
 	public void showSettings(){
-		String tmpstring = "";
+		String alarmtime = "";
+		String fadein = "";
+		String days = "";
 		if(settings.minute<10)
-			tmpstring += "Waketime: " + settings.hour + ".0" + settings.minute +"\n";
+			alarmtime += "<big> "+settings.hour + ":0" + settings.minute +"</big>   ";
 		else
-			tmpstring += "Waketime: " + settings.hour + "." + settings.minute +"\n";
-			
+			alarmtime += "<big> "+settings.hour + ":" + settings.minute +"</big>   ";
+				
+		days += "<small>";
+		if(settings.mon)
+			days += "mo ";
+		else
+			days += "<font color='#FF0000'>"+"mo "+"</font>";
+		if(settings.tue)
+			days += "tu ";
+		else
+			days += "<font color='#FF0000'>"+"tu "+"</font>";
+		if(settings.wed)
+			days += "we ";
+		else
+			days += "<font color='#FF0000'>"+"we "+"</font>";
+		if(settings.thu)
+			days += "th ";
+		else
+			days += "<font color='#FF0000'>"+"th "+"</font>";
+		if(settings.fri)
+			days += "fr ";
+		else
+			days += "<font color='#FF0000'>"+"fr "+"</font>";
+		if(settings.sat)
+			days += "sa ";
+		else
+			days += "<font color='#FF0000'>"+"sa "+"</font>";
+		if(settings.sun)
+			days += "su ";
+		else
+			days += "<font color='#FF0000'>"+"su "+"</font>";
+		
+		days += "</small><br />";
+		
+		int tmpfadeintime;
+		tmpfadeintime = (int) settings.fadeintime;
+		
+		fadein += "<small>";
 		if(settings.fadein)
-			tmpstring += "Fadein: "+Float.toString(settings.fadeintime)+" Minutes";
+			fadein += "Fadein: "+Integer.toString(tmpfadeintime)+" Minutes";
 		else
-			tmpstring += "Fadein: OFF";
-		button_right_active.setTextSize(12);
-		button_right_active.setText(tmpstring);
+			fadein += "Fadein: OFF";
+		fadein += "</small>";
+		button_right_active.setTextSize(16);
+		button_right_active.setTextColor(Color.WHITE);
+		button_right_active.setText(Html.fromHtml(alarmtime+days+fadein));
 	}
 	
 	public void setActive(){

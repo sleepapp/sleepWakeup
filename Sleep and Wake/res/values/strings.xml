@@ -3,7 +3,7 @@
     <string name="app_name">Sleep and Wake</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Sleep and Wake</string>
     <string name="button_wakeup">Wake</string>
     <string name="button_sleep">Sleep</string>
     <string name="textview_default">Click to add</string>
@@ -30,7 +30,8 @@
 	<string name="button_friday">F</string>
 	<string name="button_saturday">S</string>
 	<string name="button_sunday">S</string>
-	<string name="textview_weeklyrepetition">Weekly repetition</string>
+	<string name="checkbox_weeklyrepetition">Weekly repetition</string>
+	<string name="button_stopalarm">I´m awake - push to stop</string>	
 	
     
     <color name="red">#FF0000</color>

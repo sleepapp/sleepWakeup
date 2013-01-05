@@ -17,8 +17,8 @@ public class SleepSettings implements Serializable {
 		
 	public SleepSettings(){
 		id = 1;		
-		fadeout = false;
-		displayfadeout = false;
+		fadeout = true;
+		displayfadeout = true;
 		fadeouttime = 15.0f;
 		ownmusic = false;
 		active = false;

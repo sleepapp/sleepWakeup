@@ -41,13 +41,18 @@ public class WakeupsettingsActivity extends Activity {
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        
-//	        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	        requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        setContentView(R.layout.activity_wakeupsettings);
+	        
+	        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	        
 	        Intent intent = getIntent();
 	        mywakeup = (WakeupSettings)intent.getSerializableExtra("MAIN_MESSAGE_WAKE");
 	        
+	        editfadeintime = (EditText) findViewById(R.id.edit_fadeintime);
+	        timepicker_wakeuptime = (TimePicker) findViewById(R.id.timePicker_wakeup);
+	        timepicker_wakeuptime.setIs24HourView(true);
 	        button_mon = (Button) findViewById(R.id.button_monday);
 	        button_tue = (Button) findViewById(R.id.button_tuesday);
 	        button_wed = (Button) findViewById(R.id.button_wednesday);
@@ -56,12 +61,9 @@ public class WakeupsettingsActivity extends Activity {
 	        button_sat = (Button) findViewById(R.id.button_saturday);
 	        button_sun = (Button) findViewById(R.id.button_sunday);
 	        checkbox_weeklyrepetition = (CheckBox) findViewById(R.id.checkBox_weeklyrepetition);
-	        timepicker_wakeuptime = (TimePicker) findViewById(R.id.timePicker_wakeup);
 	        rbfadeinon = (RadioButton) findViewById(R.id.radioButton_fadeinon);
 	        rbfadeinoff = (RadioButton) findViewById(R.id.radioButton_fadeinoff);
-	        editfadeintime = (EditText) findViewById(R.id.edit_fadeintime);
-	        timepicker_wakeuptime.setIs24HourView(true);
-	        
+	        	        
 	        initialize_components();
 	
 	        button_mon.setOnClickListener(new OnClickListener() {  

@@ -102,6 +102,8 @@ public void onAttachedToWindow() {
 					if(actual_displaybrightness - tmpdisplaystep > 0.00f && stop==false){
 						//reduce display brightness
 						actual_displaybrightness = actual_displaybrightness - tmpdisplaystep;
+						if(actual_displaybrightness < 0.00f)
+							actual_displaybrightness = 0.00f;
 						
 					}
 						

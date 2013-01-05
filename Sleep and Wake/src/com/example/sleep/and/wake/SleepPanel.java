@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,6 +42,14 @@ public class SleepPanel extends ControlPanel {
 		button_left_shade.setBackgroundResource(R.drawable.buttontestsleepshade120x120);
 		button_right_shade.setBackgroundResource(R.drawable.buttontestsleepshade600x120);
 	
+		String tmpstring = "";
+		
+		tmpstring += "tab to add new sleep timer";
+		
+		button_right_shade.setTextSize(12);
+		button_right_shade.setTextColor(Color.WHITE);
+		button_right_shade.setText(tmpstring);
+		
 		button_right_shade.setOnClickListener(new OnClickListener() {  
 			public void onClick(View view) { 
 				sleep();
@@ -86,6 +95,7 @@ public class SleepPanel extends ControlPanel {
 			tmpstring += " Display Fadeout: OFF";
 					
 		button_right_active.setTextSize(12);
+		button_right_active.setTextColor(Color.WHITE);
 		button_right_active.setText(tmpstring);
 		
 	}

@@ -1,8 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@drawable/background_settings">
 
+     <ScrollView 
+       	android:layout_width="fill_parent"
+       	android:layout_height="fill_parent">
+    
+        <LinearLayout
+        		android:orientation="vertical"
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content" >
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/textview_fadeout" />
+            android:text="@string/textview_fadeout"
+            android:textColor="@color/white" />
 		
         <RadioGroup
             android:layout_width="wrap_content"
@@ -24,13 +35,15 @@
             android:id="@+id/radioButton_fadeouton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radiobutton_on" />
+            android:text="@string/radiobutton_on"
+            android:textColor="@color/white" />
 
     	<RadioButton
         	android:id="@+id/radioButton_fadeoutoff"
        		android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:text="@string/radiobutton_off" />
+        	android:text="@string/radiobutton_off"
+        	android:textColor="@color/white" />
 		</RadioGroup>
 	</LinearLayout>
 	   
@@ -44,7 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/textview_fadeoutdisplay" />
+            android:text="@string/textview_fadeoutdisplay"
+            android:textColor="@color/white" />
 		
         <RadioGroup
             android:layout_width="wrap_content"
@@ -55,13 +69,15 @@
             android:id="@+id/radioButton_fadeoutdisplayon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radiobutton_on" />
+            android:text="@string/radiobutton_on"
+            android:textColor="@color/white" />
 
     	<RadioButton
         	android:id="@+id/radioButton_fadeoutdisplayoff"
        		android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:text="@string/radiobutton_off" />
+        	android:text="@string/radiobutton_off"
+        	android:textColor="@color/white" />
 		</RadioGroup>
 	</LinearLayout>
     
@@ -73,21 +89,23 @@
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-    		android:text="@string/textview_fadeouttime"/>
+    		android:text="@string/textview_fadeouttime"
+    		android:textColor="@color/white"/>
         
     	<EditText
         	android:id="@+id/edit_fadeouttime"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:hint="@string/edittext_fadeintime"
-        	android:inputType="number"/>
+        	android:inputType="number"
+        	android:textColor="@color/white"/>
 	
     	  <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-    		android:text="@string/textview_fadeinminute"/>
+    		android:text="@string/textview_fadeinminute"
+    		android:textColor="@color/white"/>
 	</LinearLayout>
-    
      
     
     <LinearLayout 
@@ -100,21 +118,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_savewakeupsettings"
-        android:onClick="saveWakeupSettings" />
+        android:onClick="saveWakeupSettings" 
+        android:textColor="@color/white"/>
 
          <Button
         android:id="@+id/button_deletesleepsettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_delete"
-        android:onClick="deleteWakeupSettings" />
+        android:onClick="deleteWakeupSettings"
+        android:textColor="@color/white" />
         
     	<Button
         android:id="@+id/button_cancelsleepsettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_cancelwakeupsettings"
-        android:onClick="cancelWakeupSettings" />
+        android:onClick="cancelWakeupSettings"
+        android:textColor="@color/white" />
     </LinearLayout>
 
+    </LinearLayout>
+     </ScrollView>
+    
 </LinearLayout>

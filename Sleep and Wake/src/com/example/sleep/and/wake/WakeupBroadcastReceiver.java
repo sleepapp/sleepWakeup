@@ -150,26 +150,32 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		if(calSet.compareTo(calNow) > 0){
         //Today Set time not yet passed
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+"repeat first if" , Toast.LENGTH_LONG).show();
+ 			//Toast.makeText(context, String.valueOf(timediff)+"repeat first if" , Toast.LENGTH_LONG).show();
  			Log.d("WakeupBroadcast", String.valueOf(timediff)+"repeat first if");
  		}else{
         //Today Set time passed, count to next week
  			calSet.add(Calendar.DATE, 7);//here 7 has to added because its then the next week
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+"repeat else" , Toast.LENGTH_LONG).show();
+ 			//Toast.makeText(context, String.valueOf(timediff)+"repeat else" , Toast.LENGTH_LONG).show();
  			Log.d("WakeupBroadcast", String.valueOf(timediff)+"repeat else");
  		}
+ 		//alarm hast to start before the set time if fadein is on
+ 		if(mywakeup.settings.fadein)
+ 			timediff = timediff - (long) (mywakeup.settings.fadeintime*60000);
  		
  		AlarmManager myalarmmanager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
  		Intent myintent = new Intent(context, WakeupBroadcastReceiver.class);
  		myintent.putExtra(WAKEUP, mywakeup.settings);
  		PendingIntent mypendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), myintent, 0);
-     		
- 		myalarmmanager.setRepeating(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, 604800000 , mypendingintent);
+     	
+ 		if(timediff > 0L)
+ 			myalarmmanager.setRepeating(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, 604800000 , mypendingintent);
+ 		else
+ 			Toast.makeText(context, "Alarm in the past, select another time." , Toast.LENGTH_LONG).show();
     }
     
     public void setAlarmOnetime(Context context,WakeupPanel mywakeup,Calendar calNow,Calendar calSet,int day){
-    	long timediff = 0;
+    	long timediff = 0L;
     	calSet.set(Calendar.DAY_OF_WEEK, day);//Sunday=1;Monday=2;...;Saturday=7
  		calSet.set(Calendar.HOUR_OF_DAY, mywakeup.settings.hour);
  		calSet.set(Calendar.MINUTE, mywakeup.settings.minute);
@@ -179,22 +185,29 @@ public class WakeupBroadcastReceiver extends BroadcastReceiver {
  		if(calSet.compareTo(calNow) > 0){
         //Today Set time not yet passed
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" norepeat first if" , Toast.LENGTH_LONG).show();
+ 			//Toast.makeText(context, String.valueOf(timediff)+" norepeat first if" , Toast.LENGTH_LONG).show();
  			Log.d("WakeupBroadcast", "Day:" +String.valueOf(day) + "  " + String.valueOf(timediff)+" norepeat first if");
  		}else{
         //Today Set time passed, count to next week
  			calSet.add(Calendar.DATE, 7);//here 7 has to added because its then the next week
  			timediff = calSet.getTimeInMillis() - calNow.getTimeInMillis();
- 			Toast.makeText(context, String.valueOf(timediff)+" norepeat else" , Toast.LENGTH_LONG).show();
+ 			//Toast.makeText(context, String.valueOf(timediff)+" norepeat else" , Toast.LENGTH_LONG).show();
  			Log.d("WakeupBroadcast", "Day:" +String.valueOf(day) + "  " + String.valueOf(timediff)+" norepeat else");
  		}
-     	
+ 		//alarm hast to start before the set time if fadein is on
+ 		
+ 		if(mywakeup.settings.fadein)
+ 			timediff = timediff - (long) (mywakeup.settings.fadeintime*60000);
+ 		 		
  		AlarmManager myalarmmanager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
  		Intent myintent = new Intent(context, WakeupBroadcastReceiver.class);
  		myintent.putExtra(WAKEUP, mywakeup.settings);
  		PendingIntent mypendingintent = PendingIntent.getBroadcast(context, mywakeup.id+(day-1), myintent, 0);
  		
- 		myalarmmanager.set(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, mypendingintent);
+ 		if(timediff > 0L)
+ 			myalarmmanager.set(AlarmManager.RTC_WAKEUP, calNow.getTimeInMillis()+timediff, mypendingintent);
+ 		else
+ 			Toast.makeText(context, "Alarm in the past, select another time." , Toast.LENGTH_LONG).show();
  		 		
     }
     

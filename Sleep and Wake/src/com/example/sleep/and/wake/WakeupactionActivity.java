@@ -200,6 +200,11 @@ public class WakeupactionActivity extends Activity {
 		else{
 			off = true;
 		}
+		if(player != null){
+			player.stop();
+			player.release();
+			player = null;
+		}
 		Log.d("WakeupactionActivity", "Call onStop");
 	}
 
